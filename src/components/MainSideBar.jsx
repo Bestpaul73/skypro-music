@@ -1,4 +1,4 @@
-function MainSideBar() {
+const MainSideBar = () => {
   return (
     <div className="main__sidebar sidebar">
       <div className="sidebar__personal">

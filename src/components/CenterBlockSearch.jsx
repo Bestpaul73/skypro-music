@@ -1,4 +1,4 @@
-function CenterBlockSearch() {
+const CenterBlockSearch = () => {
   return (
     <div className="centerblock__search search">
       <svg className="search__svg">

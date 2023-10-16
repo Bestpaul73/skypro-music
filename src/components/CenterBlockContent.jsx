@@ -1,4 +1,4 @@
-function CenterBlockContent() {
+const CenterBlockContent = () => {
   return (
     <div className="centerblock__content">
       <div className="content__title playlist-title">

@@ -1,4 +1,4 @@
-function Bar() {
+const Bar = () => {
   return (
     <div className="bar">
       <div className="bar__content">
@@ -88,4 +88,4 @@ function Bar() {
   )
 }
 
-export default Bar;
+export default Bar

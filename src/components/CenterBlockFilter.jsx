@@ -1,4 +1,4 @@
-function CenterBlockFilter() {
+const CenterBlockFilter = () => {
   return (
     <div className="centerblock__filter filter">
       <div className="filter__title">Искать по:</div>
