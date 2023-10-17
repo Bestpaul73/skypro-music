@@ -1,16 +1,16 @@
-import { useState, useEffect, createContext } from 'react'
+import { useState, useEffect } from 'react'
 import Bar from './components/Bar'
 import Main from './components/Main'
 import './styles/App.css'
+import loadingContext from './components/Context'
 
 const App = () => {
   const [loading, setLoading] = useState(true)
-  const loadingContext = createContext()
 
   useEffect(() => {
     const timeoutId = setTimeout(() => {
       setLoading(false)
-    }, 5000)
+    }, 3000)
     return () => {
       clearTimeout(timeoutId)
     }
