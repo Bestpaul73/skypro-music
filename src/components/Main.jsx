@@ -1,11 +1,11 @@
-import MainCenterBlock from './MainCenterBlock'
-import MainNav from './MainNav'
+import { NavMenu } from './NavMenu/NavMenu'
+import MainCenterBlock from './MainCenterBlock/MainCenterBlock'
 import MainSideBar from './MainSideBar'
 
 const Main = () => {
   return (
     <main className="main">
-      <MainNav />
+      <NavMenu />
       <MainCenterBlock />
       <MainSideBar />
     </main>
