@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import * as S from './CenterBlockFilter.styles.js'
 
-
 const CenterBlockFilter = () => {
   const [visibleFilter, setVisibleFilter] = useState(null)
 
@@ -15,9 +14,7 @@ const CenterBlockFilter = () => {
 
       <S.FilterButtonWrapper>
         <S.FilterButton
-          className={`${
-            visibleFilter === 'author' ? `_btn-text_active` : `_btn-text`
-          }`}
+          $isActive={visibleFilter === 'author' ? true : false}
           onClick={() => toggleVisibleFilter('author')}
         >
           исполнителю
@@ -41,9 +38,7 @@ const CenterBlockFilter = () => {
 
       <S.FilterButtonWrapper>
         <S.FilterButton
-          className={`filter__button button-author ${
-            visibleFilter === 'year' ? `_btn-text_active` : `_btn-text`
-          }`}
+          $isActive={visibleFilter === 'year' ? true : false}
           onClick={() => toggleVisibleFilter('year')}
         >
           году выпуска
@@ -63,9 +58,7 @@ const CenterBlockFilter = () => {
 
       <S.FilterButtonWrapper>
         <S.FilterButton
-          className={`filter__button button-author ${
-            visibleFilter === 'genre' ? `_btn-text_active` : `_btn-text`
-          }`}
+          $isActive={visibleFilter === 'genre' ? true : false}
           onClick={() => toggleVisibleFilter('genre')}
         >
           жанру

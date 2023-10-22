@@ -34,6 +34,18 @@ export const FilterButton = styled.button`
   padding: 6px 20px;
   background: transparent;
   color: #fff;
+  &:hover {
+    border-color: #d9b6ff;
+    color: #d9b6ff;
+    cursor: pointer;
+  }
+  &:active {
+    border-color: #ad61ff;
+    color: #ad61ff;
+    cursor: pointer;
+  }
+  border-color: ${(props) => (props.$isActive ? '#d9b6ff' : '#fff')};
+  color: ${(props) => (props.$isActive ? '#d9b6ff' : '#fff')};
 `
 export const FilterBoxDiv = styled.div`
   padding: 34px;
@@ -57,14 +69,14 @@ export const FilterListUl = styled.ul`
   &::-webkit-scrollbar {
     width: 4px;
     height: 0px;
-  };
+  }
   &::-webkit-scrollbar-track {
     background-color: #4b4949;
-  };
+  }
   &::-webkit-scrollbar-thumb {
     background: #fff;
     border-radius: 2px;
-  };
+  }
 `
 export const FilterItem = styled.li`
   font-family: StratosSkyeng;

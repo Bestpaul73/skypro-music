@@ -1,4 +1,4 @@
-import CenterBlockContent from '../CenterBlockContent'
+import CenterBlockContent from '../CenterBlockContent/CenterBlockContent'
 import CenterBlockFilter from '../CenterBlockFilter/CenterBlockFilter'
 import CenterBlockSearch from '../CenterBlockSearch/CenterBlockSearch'
 import * as S from './MainCenterBlock.styles.js'
