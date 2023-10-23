@@ -181,7 +181,7 @@ export const Rectangle12Div = styled.div`
   background: #313131;
 `
 export const Rectangle13Div = styled.div`
-  width: 224px;
+  width: 225px;
   height: 19px;
   flex-shrink: 0;
   background: #313131;
