@@ -7,16 +7,16 @@ import { useState, useEffect } from 'react'
 import loadingContext from '../../Context'
 
 export const Main = () => {
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(false)
 
-  useEffect(() => {
-    const timeoutId = setTimeout(() => {
-      setLoading(false)
-    }, 1000)
-    return () => {
-      clearTimeout(timeoutId)
-    }
-  }, [])
+  // useEffect(() => {
+  //   const timeoutId = setTimeout(() => {
+  //     setLoading(false)
+  //   }, 1000)
+  //   return () => {
+  //     clearTimeout(timeoutId)
+  //   }
+  // }, [])
 
   return (
     <loadingContext.Provider value={loading}>

@@ -5,6 +5,7 @@ import * as S from './CenterBlockContent.styles.js'
 
 const CenterBlockContent = () => {
   const loading = useContext(loadingContext)
+  console.log(loading);
 
   return (
     <S.CenterBlockContentDiv>
@@ -20,6 +21,46 @@ const CenterBlockContent = () => {
       </S.ContentTitleDiv>
 
       <S.ContentPlaylistDiv>
+
+        {loading ? (
+          <PlayListItemSkeleton />
+        ) : (
+          <S.PlaylistItemDiv>
+            <S.PlaylistTrackDiv>
+              <S.TrackTitleDiv>
+                <S.TrackTitleImageDiv>
+                  <S.TrackTitleSvg alt="music">
+                    <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                  </S.TrackTitleSvg>
+                </S.TrackTitleImageDiv>
+                <S.TrackTitleTextDiv>
+                  <S.TrackTitleLinkA href="http://">
+                    track.name <S.TrackTitleSpan/>
+                  </S.TrackTitleLinkA>
+                </S.TrackTitleTextDiv>
+              </S.TrackTitleDiv>
+              <S.TrackAuthorDiv>
+                <S.TrackAuthorLinkA href="http://">
+                  Nero
+                </S.TrackAuthorLinkA>
+              </S.TrackAuthorDiv>
+
+              <S.TrackAlbumDiv>
+                <S.TrackAlbumLinkA href="http://">
+                  Welcome Reality
+                </S.TrackAlbumLinkA>
+              </S.TrackAlbumDiv>
+              
+              <S.TrackTimeDiv>
+                <S.TrackTimeSvg alt="time">
+                  <use xlinkHref="img/icon/sprite.svg#icon-like" />
+                </S.TrackTimeSvg>
+                <S.TrackTimeTextSpan>4:44</S.TrackTimeTextSpan>
+              </S.TrackTimeDiv>
+            </S.PlaylistTrackDiv>
+          </S.PlaylistItemDiv>
+        )}
+
         {loading ? (
           <PlayListItemSkeleton />
         ) : (
@@ -95,6 +136,7 @@ const CenterBlockContent = () => {
             </S.PlaylistTrackDiv>
           </S.PlaylistItemDiv>
         )}
+
         {loading ? (
           <PlayListItemSkeleton />
         ) : (
