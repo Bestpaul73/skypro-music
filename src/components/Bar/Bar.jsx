@@ -3,12 +3,16 @@ import loadingContext from '../Context'
 import * as S from './Bar.styles'
 
 const Bar = () => {
-  const loading = useContext(loadingContext)
+  const { currentTrack } = useContext(loadingContext)
+  const track_file = currentTrack.track_file
 
   return (
     <S.BarDiv>
+      <audio controls src={track_file}>
+        <a href={track_file}> Download audio </a>
+      </audio>
       <S.BarContentDiv>
-        <S.BarPlayerProgressDiv/>
+        <S.BarPlayerProgressDiv />
         <S.BarPlayerBlockDiv>
           <S.BarPlayerDiv>
             <S.PlayerControlsDiv>
@@ -43,28 +47,18 @@ const Bar = () => {
               <S.TrackPlayContainDiv>
                 <S.TrackPlayImageDiv>
                   <S.TrackPlaySvg alt="music">
-                    {loading ? null : (
-                      <use xlinkHref="img/icon/sprite.svg#icon-note" />
-                    )}
+                    <use xlinkHref="img/icon/sprite.svg#icon-note" />
                   </S.TrackPlaySvg>
                 </S.TrackPlayImageDiv>
                 <S.TrackPlayAuthorDiv>
-                  {loading ? (
-                    <S.Rectangle5915Div/>
-                  ) : (
-                    <S.TrackPlayAuthorLinkA href="http://">
-                      Ты та...
-                    </S.TrackPlayAuthorLinkA>
-                  )}
+                  <S.TrackPlayAuthorLinkA href="http://">
+                    {currentTrack.name}
+                  </S.TrackPlayAuthorLinkA>
                 </S.TrackPlayAuthorDiv>
                 <S.TrackPlayAlbumDiv>
-                  {loading ? (
-                    <S.Rectangle5915Div/>
-                  ) : (
-                    <S.TrackPlayAlbumLinkA href="http://">
-                      Баста
-                    </S.TrackPlayAlbumLinkA>
-                  )}
+                  <S.TrackPlayAlbumLinkA href="http://">
+                    {currentTrack.author}
+                  </S.TrackPlayAlbumLinkA>
                 </S.TrackPlayAlbumDiv>
               </S.TrackPlayContainDiv>
 

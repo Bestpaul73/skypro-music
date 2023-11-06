@@ -8,7 +8,7 @@ export async function getAllTracks() {
   }
 
   const data = await response.json();
-  // console.log(data);
+
   return data;
 }
 

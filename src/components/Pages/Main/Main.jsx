@@ -8,6 +8,7 @@ import loadingContext from '../../Context'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)
+  const [currentTrack, setCurrentTrack] = useState(null)
 
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {
@@ -19,12 +20,12 @@ export const Main = () => {
   // }, [])
 
   return (
-    <loadingContext.Provider value={{loading, setLoading}}>
+    <loadingContext.Provider value={{loading, setLoading, currentTrack, setCurrentTrack}}>
       <MainDiv>
         <NavMenu />
         <MainCenterBlock />
         <MainSideBar />
-        <Bar />
+        {currentTrack ? <Bar /> : null}
       </MainDiv>
     </loadingContext.Provider>
   )
