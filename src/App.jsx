@@ -2,11 +2,10 @@ import { useEffect, useState } from 'react'
 import * as S from './App.styles'
 import { AppRoutes } from './components/routes'
 import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
-import { getAllTracks } from './api'
 
 const App = () => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('SetLogin');
 
   const handleLogin = () => {
     localStorage.setItem('login', 'SetLogin');
@@ -14,14 +13,7 @@ const App = () => {
     setUser(getUser);
   }
 
-  const [allTracks, setAllTracks] = useState([]);
-
-  useEffect(() => {
-    getAllTracks().then((data) => {
-      setAllTracks(data);
-    });
-    console.log(allTracks);
-  }, []);
+  
 
   return (
       <S.WrapperDiv>

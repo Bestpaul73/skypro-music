@@ -1,11 +1,32 @@
-import { useContext } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import loadingContext from '../Context'
 import PlayListItemSkeleton from './PlayListItemSkeleton'
 import * as S from './CenterBlockContent.styles.js'
+import { getAllTracks } from '../../api.js'
 
 const CenterBlockContent = () => {
-  const loading = useContext(loadingContext)
-  console.log(loading);
+  const { loading, setLoading } = useContext(loadingContext)
+
+  const [allTracks, setAllTracks] = useState([])
+
+  useEffect(() => {
+    getAllTracks()
+      .then((allTracks) => {
+        setAllTracks(allTracks)
+      })
+      .catch(() => {
+        console.log(`Ошибка загрузки`)
+      })
+      .finally(() => {
+        setLoading(false)
+      })
+  }, [])
+
+  const durationToString = (duration) => {
+    let minutes = String(Math.trunc(duration / 60))
+    let seconds = String(duration % 60)
+    return `${minutes.padStart(2, 0)}:${seconds.padStart(2, 0)}`
+  }
 
   return (
     <S.CenterBlockContentDiv>
@@ -21,8 +42,65 @@ const CenterBlockContent = () => {
       </S.ContentTitleDiv>
 
       <S.ContentPlaylistDiv>
-
         {loading ? (
+          <>
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+            <PlayListItemSkeleton />
+          </>
+        ) : (
+          allTracks.map((track) => {
+            return (
+              <S.PlaylistItemDiv key={track.id}>
+                <S.PlaylistTrackDiv>
+                  <S.TrackTitleDiv>
+                    <S.TrackTitleImageDiv>
+                      <S.TrackTitleSvg alt="music">
+                        <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                      </S.TrackTitleSvg>
+                    </S.TrackTitleImageDiv>
+                    <S.TrackTitleTextDiv>
+                      <S.TrackTitleLinkA href="http://">
+                        {track.name} <S.TrackTitleSpan />
+                      </S.TrackTitleLinkA>
+                    </S.TrackTitleTextDiv>
+                  </S.TrackTitleDiv>
+                  <S.TrackAuthorDiv>
+                    <S.TrackAuthorLinkA href="http://">
+                      {track.author}
+                    </S.TrackAuthorLinkA>
+                  </S.TrackAuthorDiv>
+
+                  <S.TrackAlbumDiv>
+                    <S.TrackAlbumLinkA href="http://">
+                      {track.album}
+                    </S.TrackAlbumLinkA>
+                  </S.TrackAlbumDiv>
+
+                  <S.TrackTimeDiv>
+                    <S.TrackTimeSvg alt="time">
+                      <use xlinkHref="img/icon/sprite.svg#icon-like" />
+                    </S.TrackTimeSvg>
+                    <S.TrackTimeTextSpan>
+                      {durationToString(track.duration_in_seconds)}
+                    </S.TrackTimeTextSpan>
+                  </S.TrackTimeDiv>
+                </S.PlaylistTrackDiv>
+              </S.PlaylistItemDiv>
+            )
+          })
+        )}
+
+        {/* {loading ? (
           <PlayListItemSkeleton />
         ) : (
           <S.PlaylistItemDiv>
@@ -35,14 +113,12 @@ const CenterBlockContent = () => {
                 </S.TrackTitleImageDiv>
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
-                    track.name <S.TrackTitleSpan/>
+                    Guilt <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  Nero
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">Nero</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
 
               <S.TrackAlbumDiv>
@@ -50,7 +126,7 @@ const CenterBlockContent = () => {
                   Welcome Reality
                 </S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
-              
+
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
                   <use xlinkHref="img/icon/sprite.svg#icon-like" />
@@ -74,46 +150,7 @@ const CenterBlockContent = () => {
                 </S.TrackTitleImageDiv>
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
-                    Guilt <S.TrackTitleSpan/>
-                  </S.TrackTitleLinkA>
-                </S.TrackTitleTextDiv>
-              </S.TrackTitleDiv>
-              <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  Nero
-                </S.TrackAuthorLinkA>
-              </S.TrackAuthorDiv>
-
-              <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  Welcome Reality
-                </S.TrackAlbumLinkA>
-              </S.TrackAlbumDiv>
-              
-              <S.TrackTimeDiv>
-                <S.TrackTimeSvg alt="time">
-                  <use xlinkHref="img/icon/sprite.svg#icon-like" />
-                </S.TrackTimeSvg>
-                <S.TrackTimeTextSpan>4:44</S.TrackTimeTextSpan>
-              </S.TrackTimeDiv>
-            </S.PlaylistTrackDiv>
-          </S.PlaylistItemDiv>
-        )}
-
-        {loading ? (
-          <PlayListItemSkeleton />
-        ) : (
-          <S.PlaylistItemDiv>
-            <S.PlaylistTrackDiv>
-              <S.TrackTitleDiv>
-                <S.TrackTitleImageDiv>
-                  <S.TrackTitleSvg alt="music">
-                    <use xlinkHref="img/icon/sprite.svg#icon-note" />
-                  </S.TrackTitleSvg>
-                </S.TrackTitleImageDiv>
-                <S.TrackTitleTextDiv>
-                  <S.TrackTitleLinkA href="http://">
-                    Elektro <S.TrackTitleSpan/>
+                    Elektro <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -123,9 +160,7 @@ const CenterBlockContent = () => {
                 </S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  Elektro
-                </S.TrackAlbumLinkA>
+                <S.TrackAlbumLinkA href="http://">Elektro</S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
@@ -150,7 +185,7 @@ const CenterBlockContent = () => {
                 </S.TrackTitleImageDiv>
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
-                    I’m Fire <S.TrackTitleSpan/>
+                    I’m Fire <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -160,9 +195,7 @@ const CenterBlockContent = () => {
                 </S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  I’m Fire
-                </S.TrackAlbumLinkA>
+                <S.TrackAlbumLinkA href="http://">I’m Fire</S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
@@ -197,9 +230,7 @@ const CenterBlockContent = () => {
                 </S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  Non Stop
-                </S.TrackAlbumLinkA>
+                <S.TrackAlbumLinkA href="http://">Non Stop</S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
@@ -234,9 +265,7 @@ const CenterBlockContent = () => {
                 </S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  Run Run
-                </S.TrackAlbumLinkA>
+                <S.TrackAlbumLinkA href="http://">Run Run</S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
@@ -298,9 +327,7 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Mucho Bien
-                    <S.TrackTitleSpan>
-                      (Hi Profile Remix)
-                    </S.TrackTitleSpan>
+                    <S.TrackTitleSpan>(Hi Profile Remix)</S.TrackTitleSpan>
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -310,9 +337,7 @@ const CenterBlockContent = () => {
                 </S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
-                <S.TrackAlbumLinkA href="http://">
-                  Mucho Bien
-                </S.TrackAlbumLinkA>
+                <S.TrackAlbumLinkA href="http://">Mucho Bien</S.TrackAlbumLinkA>
               </S.TrackAlbumDiv>
               <S.TrackTimeDiv>
                 <S.TrackTimeSvg alt="time">
@@ -337,14 +362,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -374,14 +397,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -411,14 +432,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -448,14 +467,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -485,14 +502,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -522,14 +537,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -559,14 +572,12 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     Knives n Cherries
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
               <S.TrackAuthorDiv>
-                <S.TrackAuthorLinkA href="http://">
-                  minthaze
-                </S.TrackAuthorLinkA>
+                <S.TrackAuthorLinkA href="http://">minthaze</S.TrackAuthorLinkA>
               </S.TrackAuthorDiv>
               <S.TrackAlbumDiv>
                 <S.TrackAlbumLinkA href="http://">
@@ -597,7 +608,7 @@ const CenterBlockContent = () => {
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
                     How Deep Is Your Love
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -633,7 +644,7 @@ const CenterBlockContent = () => {
                 </S.TrackTitleImageDiv>
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
-                    Morena <S.TrackTitleSpan/>
+                    Morena <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -669,7 +680,7 @@ const CenterBlockContent = () => {
                 </S.TrackTitleImageDiv>
                 <S.TrackTitleTextDiv>
                   <S.TrackTitleLinkA href="http://">
-                    <S.TrackTitleSpan/>
+                    <S.TrackTitleSpan />
                   </S.TrackTitleLinkA>
                 </S.TrackTitleTextDiv>
               </S.TrackTitleDiv>
@@ -691,7 +702,7 @@ const CenterBlockContent = () => {
               </S.TrackTimeDiv>
             </S.PlaylistTrackDiv>
           </S.PlaylistItemDiv>
-        )}
+        )} */}
       </S.ContentPlaylistDiv>
     </S.CenterBlockContentDiv>
   )

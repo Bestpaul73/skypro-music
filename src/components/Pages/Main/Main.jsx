@@ -7,7 +7,7 @@ import { useState, useEffect } from 'react'
 import loadingContext from '../../Context'
 
 export const Main = () => {
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {
@@ -19,7 +19,7 @@ export const Main = () => {
   // }, [])
 
   return (
-    <loadingContext.Provider value={loading}>
+    <loadingContext.Provider value={{loading, setLoading}}>
       <MainDiv>
         <NavMenu />
         <MainCenterBlock />
