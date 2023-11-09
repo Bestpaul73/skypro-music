@@ -5,7 +5,7 @@ import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
 
 const App = () => {
 
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState('SetLogin');
 
   const handleLogin = () => {
     localStorage.setItem('login', 'SetLogin');
