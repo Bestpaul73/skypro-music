@@ -10,8 +10,10 @@ const AudioPlayer = () => {
   const { currentTrack } = useContext(loadingContext)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoop, setIsLoop] = useState(false)
+  const [currentTime, setCurrentTime] = useState(0)
+  const [duration, setDuration] = useState(0)
 
-  const audioRef = useRef(0)
+  const audioRef = useRef('')
 
   const track_file = currentTrack.track_file
 
@@ -20,11 +22,14 @@ const AudioPlayer = () => {
     setIsPlaying(true)
   }
 
-  useEffect(handlePlay, [currentTrack])
-
   const handleStop = () => {
     audioRef.current.pause()
     setIsPlaying(false)
+  }
+
+  const handleLoop = () => {
+    audioRef.current.loop = !isLoop
+    setIsLoop(!isLoop)
   }
 
   const timeToString = (time) => {
@@ -34,55 +39,38 @@ const AudioPlayer = () => {
     return `${minutes.padStart(2, 0)}:${seconds.padStart(2, 0)}`
   }
 
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime(timeToString(audioRef.current.currentTime))
-      setDuration(timeToString(audioRef.current.duration)) //тут оно не нужно
-    }, 1000)
-    // setDuration(timeToString(audioRef.current.duration))     //но тут получается Нан
-    // console.log(audioRef.current.duration);
-    return () => clearTimeout(interval)
-  }, [currentTrack])
-
-  const handleLoop = () => {
-    console.log(isLoop)
-    audioRef.current.loop = !isLoop
-    setIsLoop(!isLoop)
-    console.log(audioRef.current.loop) //почему сразу не меняется состояние??
-  }
-
   const awaitImplementation = () => {
     alert('Функционал еще не реализован')
   }
 
-  // useEffect(() => {
-  //   const ref = audioRef.current
-  //   console.log(ref)
+  useEffect(handlePlay, [currentTrack])
 
-  //   ref.volume = 0.1
+  const handleEndTrack = () => {
+    setIsPlaying(false)
+    setCurrentTime(timeToString(0))
 
-  //   setIsLoop(ref.loop)
-  //   // setVolume(ref.volume)
+    console.log('end')
+  }
 
-  //   const handleTimeUpdate = () => {
-  //     // if (ref.currentTime && ref.duration) {
-  //     //   setCurrentTime(ref.currentTime)
-  //     //   setDuration(ref.duration)
-  //     // } else {
-  //     //   setCurrentTime(0)
-  //     //   setDuration(0)
-  //     // }
-  //   }
+  useEffect(() => {
+    const handleTimeUpdate = () => {
+      if (audioRef.current.currentTime && audioRef.current.duration) {
+        setCurrentTime(timeToString(audioRef.current.currentTime))
+        setDuration(timeToString(audioRef.current.duration))
+      } else {
+        setCurrentTime(0)
+        setDuration(0)
+      }
+    }
 
-  //   ref.addEventListener('timeupdate', handleTimeUpdate)
-
-  //   return () => {
-  //     ref.removeEventListener('timeupdate', handleTimeUpdate)
-  //   }
-  // }, [])
+    audioRef.current.addEventListener('ended', handleEndTrack)
+    audioRef.current.addEventListener('timeupdate', handleTimeUpdate)
+    return () => {
+      audioRef.current.removeEventListener('timeupdate', handleTimeUpdate)
+      audioRef.current.removeEventListener('ended', handleEndTrack)
+      console.log('done')
+    }
+  }, [])
 
   return (
     <>
@@ -93,8 +81,9 @@ const AudioPlayer = () => {
             {currentTime} / {duration}
           </S.TimeCode>
 
-          {/* {audioRef ? <p>audioRef</p> : <p>NULL</p>} */}
-          <ProgressInputTrack ref={audioRef} />
+          {audioRef.current.duration ? (
+            <ProgressInputTrack ref={audioRef} />
+          ) : null}
 
           <S.BarPlayerBlockDiv>
             <S.BarPlayerDiv>

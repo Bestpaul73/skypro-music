@@ -1,22 +1,30 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import * as S from './ProgressBar.styles'
 import { forwardRef } from 'react'
 
 export const ProgressInputTrack = forwardRef((props, ref) => {
   ProgressInputTrack.displayName = 'ProgressInputTrack'
-  
-//   console.log(ref.current.duration) //почему с первого раза не передается??
-//   console.log(ref.current.currentTime) 
+
+  const [currentTime, setCurrentTime] = useState(0)
+
+  const handleCurrentTime = (value) => {
+    setCurrentTime(value)
+    ref.current.currentTime = value
+  }
+
+  useEffect(() => {
+    
+    setCurrentTime(ref.current.currentTime)
+  }, [ref.current.currentTime])
 
   return (
     <S.ProgressInput
       type="range"
       min={0}
-      max={ref.current.duration} 
-      value={ref.current.currentTime}
+      max={ref.current.duration}
+      value={currentTime}
       step={0.01}
-    //   $color="#AD61FF"
-      onChange={(e) => (ref.current.currentTime = e.target.value)}
+      onChange={(e) => handleCurrentTime(e.target.value)}
     />
   )
 })
@@ -24,13 +32,20 @@ export const ProgressInputTrack = forwardRef((props, ref) => {
 export const ProgressInputVolume = forwardRef((props, ref) => {
   ProgressInputVolume.displayName = 'ProgresInputVolume'
 
-    return (
-      <S.ProgressInput
-        type="range"
-        min={0}
-        max={1}
-        value={ref.current.volume}
-        step={0.01}
-        onChange={(a) => { ref.current.volume = a.target.value }}
-      />)
-  });
+  const [volume, setVolume] = useState(0.5)
+  const handleVolume = (value) => {
+    setVolume(value)
+    ref.current.volume = value
+  }
+
+  return (
+    <S.ProgressInput
+      type="range"
+      min={0}
+      max={1}
+      value={volume}
+      step={0.01}
+      onChange={(e) => handleVolume(e.target.value)}
+    />
+  )
+})
