@@ -5,8 +5,7 @@ import * as S from './CenterBlockContent.styles.js'
 import { getAllTracks } from '../../api.js'
 
 const CenterBlockContent = () => {
-  const { loading, setLoading, setCurrentTrack } =
-    useContext(loadingContext)
+  const { loading, setLoading, setCurrentTrack } = useContext(loadingContext)
 
   const [allTracks, setAllTracks] = useState([])
   const [getTracksError, setGetTracksError] = useState(null)
@@ -60,57 +59,58 @@ const CenterBlockContent = () => {
             <PlayListItemSkeleton />
             <PlayListItemSkeleton />
           </>
-        ) : null}
+        ) : (
+          allTracks.map((track) => {
+            return (
+              <S.PlaylistItemDiv
+                key={track.id}
+                onClick={() => {
+                  setCurrentTrack(track)
+                }}
+              >
+                <S.PlaylistTrackDiv>
+                  <S.TrackTitleDiv>
+                    <S.TrackTitleImageDiv>
+                      <S.TrackTitleSvg alt="music">
+                        <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                      </S.TrackTitleSvg>
+                    </S.TrackTitleImageDiv>
+                    <S.TrackTitleTextDiv>
+                      <S.TrackTitleLinkA href="#">
+                        {track.name} <S.TrackTitleSpan />
+                      </S.TrackTitleLinkA>
+                    </S.TrackTitleTextDiv>
+                  </S.TrackTitleDiv>
+                  <S.TrackAuthorDiv>
+                    <S.TrackAuthorLinkA href="#">
+                      {track.author}
+                    </S.TrackAuthorLinkA>
+                  </S.TrackAuthorDiv>
 
-        {allTracks.map((track) => {
-          return (
-            <S.PlaylistItemDiv
-              key={track.id}
-              onClick={() => {
-                setCurrentTrack(track)
-                console.log(track)
-              }}
-            >
-              <S.PlaylistTrackDiv>
-                <S.TrackTitleDiv>
-                  <S.TrackTitleImageDiv>
-                    <S.TrackTitleSvg alt="music">
-                      <use xlinkHref="img/icon/sprite.svg#icon-note" />
-                    </S.TrackTitleSvg>
-                  </S.TrackTitleImageDiv>
-                  <S.TrackTitleTextDiv>
-                    <S.TrackTitleLinkA href="#">
-                      {track.name} <S.TrackTitleSpan />
-                    </S.TrackTitleLinkA>
-                  </S.TrackTitleTextDiv>
-                </S.TrackTitleDiv>
-                <S.TrackAuthorDiv>
-                  <S.TrackAuthorLinkA href="#">
-                    {track.author}
-                  </S.TrackAuthorLinkA>
-                </S.TrackAuthorDiv>
+                  <S.TrackAlbumDiv>
+                    <S.TrackAlbumLinkA href="#">
+                      {track.album}
+                    </S.TrackAlbumLinkA>
+                  </S.TrackAlbumDiv>
 
-                <S.TrackAlbumDiv>
-                  <S.TrackAlbumLinkA href="#">
-                    {track.album}
-                  </S.TrackAlbumLinkA>
-                </S.TrackAlbumDiv>
-
-                <S.TrackTimeDiv>
-                  <S.TrackTimeSvg alt="time">
-                    <use xlinkHref="img/icon/sprite.svg#icon-like" />
-                  </S.TrackTimeSvg>
-                  <S.TrackTimeTextSpan>
-                    {durationToString(track.duration_in_seconds)}
-                  </S.TrackTimeTextSpan>
-                </S.TrackTimeDiv>
-              </S.PlaylistTrackDiv>
-            </S.PlaylistItemDiv>
-          )
-        })}
+                  <S.TrackTimeDiv>
+                    <S.TrackTimeSvg alt="time">
+                      <use xlinkHref="img/icon/sprite.svg#icon-like" />
+                    </S.TrackTimeSvg>
+                    <S.TrackTimeTextSpan>
+                      {durationToString(track.duration_in_seconds)}
+                    </S.TrackTimeTextSpan>
+                  </S.TrackTimeDiv>
+                </S.PlaylistTrackDiv>
+              </S.PlaylistItemDiv>
+            )
+          })
+        )}
 
         {getTracksError ? (
-          <p>Не удалось загрузить плейлист, попробуйте позже. {getTracksError}</p>
+          <p>
+            Не удалось загрузить плейлист, попробуйте позже. {getTracksError}
+          </p>
         ) : null}
       </S.ContentPlaylistDiv>
     </S.CenterBlockContentDiv>

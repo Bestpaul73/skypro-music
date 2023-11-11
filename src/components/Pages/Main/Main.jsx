@@ -2,7 +2,7 @@ import { NavMenu } from '../../NavMenu/NavMenu'
 import MainCenterBlock from '../../MainCenterBlock/MainCenterBlock'
 import MainSideBar from '../../MainSideBar/MainSideBar'
 import { MainDiv } from './Main.styles'
-import Bar from '../../Bar/Bar'
+import AudioPlayer from '../../AudioPlayer/AudioPlayer'
 import { useState, useEffect } from 'react'
 import loadingContext from '../../Context'
 
@@ -13,7 +13,7 @@ export const Main = () => {
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {
   //     setLoading(false)
-  //   }, 1000)
+  //   }, 5000)
   //   return () => {
   //     clearTimeout(timeoutId)
   //   }
@@ -25,7 +25,7 @@ export const Main = () => {
         <NavMenu />
         <MainCenterBlock />
         <MainSideBar />
-        {currentTrack ? <Bar /> : null}
+        {currentTrack ? <AudioPlayer /> : null}
       </MainDiv>
     </loadingContext.Provider>
   )
