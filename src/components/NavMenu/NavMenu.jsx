@@ -1,5 +1,6 @@
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import * as S from './NavMenu.styles.js'
+import { userContext } from '../../App.jsx'
 
 export const NavMenu = () => {
   const [menuOpen, setMenuOpen] = useState(true)
@@ -7,10 +8,7 @@ export const NavMenu = () => {
     setMenuOpen(!menuOpen)
   }
 
-  const handleLogout = () => {
-    // localStorage.removeItem('login');
-    console.log('тут переделать');
-  }
+  const { handleLogoff } = useContext(userContext)
 
   return (
     <S.MainNav>
@@ -39,7 +37,7 @@ export const NavMenu = () => {
             </S.MenuItemLi>
             
             <S.MenuItemLi>
-              <S.RouteMenuLink onClick={handleLogout} to="./login">
+              <S.RouteMenuLink onClick={handleLogoff} to="./login">
                 Выйти
               </S.RouteMenuLink>
             </S.MenuItemLi>

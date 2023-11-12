@@ -3,11 +3,13 @@ import * as S from './App.styles'
 import { AppRoutes } from './components/routes'
 import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
 
+export const userContext = createContext()
+
 const App = () => {
-  const userContext = createContext()
   
   const getUser = localStorage.getItem('user')
   const [user, setUser] = useState(getUser)
+  console.log(getUser);
 
   const handleLogin = () => {
     localStorage.setItem('user', user)
@@ -16,9 +18,8 @@ const App = () => {
   }
 
   const handleLogoff = () => {
-    localStorage.removeItem('user', user)
-    const getUser = localStorage.getItem('user')
-    setUser(getUser)
+    // localStorage.removeItem('user', user)
+    setUser(null)
   }
 
   return (
@@ -28,9 +29,9 @@ const App = () => {
       <S.WrapperDiv>
         <GlobalStyle />
         <S.ContainerDiv>
-          <AppRoutes user={user} onClick={handleLogin} />
+          <AppRoutes />
         </S.ContainerDiv>
-      </S.WrapperDiv>{' '}
+      </S.WrapperDiv>
     </userContext.Provider>
   )
 }
