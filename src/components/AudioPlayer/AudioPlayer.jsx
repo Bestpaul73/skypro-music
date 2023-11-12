@@ -5,9 +5,10 @@ import {
   ProgressInputTrack,
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
+import { userContext } from '../../App'
 
 const AudioPlayer = () => {
-  const { currentTrack } = useContext(loadingContext)
+  const { currentTrack } = useContext(userContext)
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoop, setIsLoop] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)
@@ -70,7 +71,7 @@ const AudioPlayer = () => {
       audioRef.current.removeEventListener('ended', handleEndTrack)
       console.log('done')
     }
-  }, [])
+  })
 
   return (
     <>

@@ -3,12 +3,13 @@ import MainCenterBlock from '../../MainCenterBlock/MainCenterBlock'
 import MainSideBar from '../../MainSideBar/MainSideBar'
 import { MainDiv } from './Main.styles'
 import AudioPlayer from '../../AudioPlayer/AudioPlayer'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useContext } from 'react'
 import { loadingContext } from '../../Context'
+import { userContext } from '../../../App'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)
-  const [currentTrack, setCurrentTrack] = useState(null)
+  const { currentTrack } = useContext(userContext)
 
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {
@@ -20,7 +21,7 @@ export const Main = () => {
   // }, [])
 
   return (
-    <loadingContext.Provider value={{loading, setLoading, currentTrack, setCurrentTrack}}>
+    <loadingContext.Provider value={{ loading, setLoading }}>
       <MainDiv>
         <NavMenu />
         <MainCenterBlock />
@@ -30,4 +31,3 @@ export const Main = () => {
     </loadingContext.Provider>
   )
 }
-

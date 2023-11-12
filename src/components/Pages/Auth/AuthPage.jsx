@@ -1,11 +1,13 @@
 import { Link } from 'react-router-dom'
 import * as S from './AuthPage.styles'
-import { useEffect, useState } from 'react'
-import { userRegister } from '../../../api'
+import { useContext, useEffect, useState } from 'react'
+import { userLogin, userRegister } from '../../../api'
+import { userContext } from '../../../App'
 
 export default function AuthPage({ isLoginMode }) {
-  const [error, setError] = useState(null)
+  const { setUser } = useContext(userContext)
 
+  const [error, setError] = useState(null)
   const [name, setName] = useState('')
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
@@ -21,12 +23,37 @@ export default function AuthPage({ isLoginMode }) {
     }
   }
 
-  const handleLogin = async ({ email, password }) => {
-    alert(`Выполняется вход: ${email} ${password}`)
-    setError('Неизвестная ошибка входа')
+  const handleLoginAPI = async ({ email, password }) => {
+    if (email === '') {
+      setError('Не заполнен Email')
+      return
+    }
+    if (password === '') {
+      setError('Не введен пароль')
+      return
+    }
+    userLogin({ email, password })
+      .then((responseData) => {
+        if (responseData.id) {
+          // alert(`Пользователь ${responseData.username} успешно авторизован`)
+          setUser(responseData.username)
+          window.location.href = '/'
+          return
+        }
+        getErrorMessage(responseData)
+      })
+      .catch((error) => {
+        if (error.message === 'Сервер сломался, попробуй позже') {
+          alert(error.message)
+        }
+        if (window.navigator.onLine === false) {
+          alert('Проблемы с интернетом, проверьте подключение')
+        }
+        console.warn(error)
+      })
   }
 
-  const handleRegister = async () => {
+  const handleRegisterAPI = async () => {
     if (name === '') {
       setError('Не заполнено имя пользователя')
       return
@@ -46,11 +73,10 @@ export default function AuthPage({ isLoginMode }) {
 
     userRegister({ name, email, password })
       .then((responseData) => {
-        // console.log(responseData)
-
         if (responseData.id) {
           alert(`Пользователь ${responseData.username} успешно зарегистрирован`)
-          console.log('переход на главную страницу')
+          setUser(responseData.username)
+          window.location.href = '/'
           return
         }
         getErrorMessage(responseData)
@@ -84,11 +110,11 @@ export default function AuthPage({ isLoginMode }) {
             <S.Inputs>
               <S.ModalInput
                 type="text"
-                name="name"
-                placeholder="Имя пользователя"
-                value={name}
+                name="login"
+                placeholder="Почта"
+                value={email}
                 onChange={(event) => {
-                  setName(event.target.value)
+                  setEmail(event.target.value)
                 }}
               />
               <S.ModalInput
@@ -103,7 +129,9 @@ export default function AuthPage({ isLoginMode }) {
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={() => handleLogin({ email, password })}>
+              <S.PrimaryButton
+                onClick={() => handleLoginAPI({ email, password })}
+              >
                 Войти
               </S.PrimaryButton>
               <Link to="/register">
@@ -153,7 +181,7 @@ export default function AuthPage({ isLoginMode }) {
             </S.Inputs>
             {error && <S.Error>{error}</S.Error>}
             <S.Buttons>
-              <S.PrimaryButton onClick={handleRegister}>
+              <S.PrimaryButton onClick={handleRegisterAPI}>
                 Зарегистрироваться
               </S.PrimaryButton>
               <Link to="/login">
