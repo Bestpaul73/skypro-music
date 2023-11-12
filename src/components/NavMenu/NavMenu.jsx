@@ -6,8 +6,10 @@ export const NavMenu = () => {
   const toggleMenuOpen = () => {
     setMenuOpen(!menuOpen)
   }
+
   const handleLogout = () => {
-    localStorage.removeItem('login');
+    // localStorage.removeItem('login');
+    console.log('тут переделать');
   }
 
   return (

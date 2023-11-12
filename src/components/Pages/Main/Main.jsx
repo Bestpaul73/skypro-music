@@ -4,7 +4,7 @@ import MainSideBar from '../../MainSideBar/MainSideBar'
 import { MainDiv } from './Main.styles'
 import AudioPlayer from '../../AudioPlayer/AudioPlayer'
 import { useState, useEffect } from 'react'
-import loadingContext from '../../Context'
+import { loadingContext } from '../../Context'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)

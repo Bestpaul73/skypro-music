@@ -14,6 +14,9 @@ export const ProgressInputTrack = forwardRef((props, ref) => {
 
   useEffect(() => {
     setCurrentTime(ref.current.currentTime)
+    if (ref.current.currentTime === ref.current.duration) {
+      setCurrentTime(0)
+    }
   }, [ref.current.currentTime])
 
   return (

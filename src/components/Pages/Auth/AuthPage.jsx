@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import * as S from "./AuthPage.styles";
 import { useEffect, useState } from "react";
 
-export default function AuthPage({ isLoginMode = false }) {
+export default function AuthPage({ isLoginMode = true }) {
   const [error, setError] = useState(null);
 
   const [email, setEmail] = useState("");
