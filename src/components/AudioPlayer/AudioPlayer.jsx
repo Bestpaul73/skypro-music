@@ -55,7 +55,7 @@ const AudioPlayer = () => {
 
   useEffect(() => {
     const handleTimeUpdate = () => {
-      if (audioRef.current.currentTime && audioRef.current.duration) {
+      if (audioRef.current?.currentTime && audioRef.current?.duration) {
         setCurrentTime(timeToString(audioRef.current.currentTime))
         setDuration(timeToString(audioRef.current.duration))
       } else {
@@ -67,8 +67,8 @@ const AudioPlayer = () => {
     audioRef.current.addEventListener('ended', handleEndTrack)
     audioRef.current.addEventListener('timeupdate', handleTimeUpdate)
     return () => {
-      audioRef.current.removeEventListener('timeupdate', handleTimeUpdate)
-      audioRef.current.removeEventListener('ended', handleEndTrack)
+      audioRef.current?.removeEventListener('timeupdate', handleTimeUpdate)
+      audioRef.current?.removeEventListener('ended', handleEndTrack)
       console.log('done')
     }
   })

@@ -12,7 +12,6 @@ const App = () => {
   const [user, setUser] = useState(getUser)
 
   const handleLogoff = () => {
-    setCurrentTrack(null)
     setUser(null)
   }
 
