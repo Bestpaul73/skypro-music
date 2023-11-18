@@ -1,11 +1,12 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import * as S from './AuthPage.styles'
 import { useContext, useEffect, useState } from 'react'
-import { userLogin, userRegister } from '../../../api'
-import { userContext } from '../../../App'
+import { userLogin, userRegister } from '../../api'
+import { userContext } from '../../App'
 
 export default function AuthPage({ isLoginMode }) {
   const { setUser } = useContext(userContext)
+  const navigate = useNavigate()
 
   const [error, setError] = useState(null)
   const [name, setName] = useState('')
@@ -23,6 +24,11 @@ export default function AuthPage({ isLoginMode }) {
     }
   }
 
+  const handleLogin = (user) => {
+    setUser(user)
+    localStorage.setItem('user', user)
+  }
+
   const handleLoginAPI = async ({ email, password }) => {
     if (email === '') {
       setError('Не заполнен Email')
@@ -36,8 +42,9 @@ export default function AuthPage({ isLoginMode }) {
       .then((responseData) => {
         if (responseData.id) {
           // alert(`Пользователь ${responseData.username} успешно авторизован`)
-          setUser(responseData.username)
-          window.location.href = '/'
+          handleLogin(responseData.username)
+          // window.location.href = '/'
+          navigate('/')
           return
         }
         getErrorMessage(responseData)
@@ -75,8 +82,9 @@ export default function AuthPage({ isLoginMode }) {
       .then((responseData) => {
         if (responseData.id) {
           alert(`Пользователь ${responseData.username} успешно зарегистрирован`)
-          setUser(responseData.username)
-          window.location.href = '/'
+          handleLogin(responseData.username)
+          // window.location.href = '/'
+          navigate('/')
           return
         }
         getErrorMessage(responseData)
