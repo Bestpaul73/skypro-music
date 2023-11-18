@@ -1,29 +1,37 @@
-import { useState } from 'react'
+import { createContext, useEffect, useState } from 'react'
 import * as S from './App.styles'
-import { AppRoutes } from './components/routes'
+import { AppRoutes } from './routes'
 import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
 
+export const userContext = createContext()
+
 const App = () => {
+  const [currentTrack, setCurrentTrack] = useState(null)
 
-  const getUser = localStorage.getItem('login');
-  const [user, setUser] = useState(getUser);
+  const [user, setUser] = useState(localStorage.getItem('user'))
 
-  
-  const handleLogin = () => {
-    localStorage.setItem('login', 'SetLogin');
-    const getUser = localStorage.getItem('login');
-    setUser(getUser);
+  const handleLogoff = () => {
+    setUser(null)
+    setCurrentTrack(null)
+    localStorage.removeItem('user')
   }
 
-  
+  // useEffect(() => {
+  //   localStorage.setItem('user', user)
+  //   console.log(user)
+  // }, [user])
 
   return (
+    <userContext.Provider
+      value={{ user, setUser, handleLogoff, currentTrack, setCurrentTrack }}
+    >
       <S.WrapperDiv>
         <GlobalStyle />
         <S.ContainerDiv>
-          <AppRoutes user={user} onClick={handleLogin}/>
+          <AppRoutes />
         </S.ContainerDiv>
       </S.WrapperDiv>
+    </userContext.Provider>
   )
 }
 
