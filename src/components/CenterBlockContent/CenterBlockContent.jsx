@@ -1,13 +1,17 @@
-import { useContext, useEffect, useState } from 'react'
+import { useContext, useDebugValue, useEffect, useState } from 'react'
 import { loadingContext } from '../../Context'
 import PlayListItemSkeleton from './PlayListItemSkeleton'
 import * as S from './CenterBlockContent.styles.js'
 import { getAllTracks } from '../../api.js'
 import { userContext } from '../../App.jsx'
+import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentTrack } from '../../store/playerSlice.js'
 
 const CenterBlockContent = () => {
   const { loading, setLoading } = useContext(loadingContext)
-  const {  setCurrentTrack } = useContext(userContext)
+  // const {  setCurrentTrack } = useContext(userContext)
+  // let currentTrack = useSelector(state => state.playerApp.currentTrack)
+  const dispatch = useDispatch()
 
   const [allTracks, setAllTracks] = useState([])
   const [getTracksError, setGetTracksError] = useState(null)
@@ -67,7 +71,7 @@ const CenterBlockContent = () => {
               <S.PlaylistItemDiv
                 key={track.id}
                 onClick={() => {
-                  setCurrentTrack(track)
+                  dispatch(setCurrentTrack(track))
                 }}
               >
                 <S.PlaylistTrackDiv>
