@@ -6,9 +6,12 @@ import {
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
 import { userContext } from '../../App'
+import { useSelector } from 'react-redux'
 
 const AudioPlayer = () => {
-  const { currentTrack } = useContext(userContext)
+  // const { currentTrack } = useContext(userContext)
+  const currentTrack = useSelector(state => state.playerApp.currentTrack)
+
   const [isPlaying, setIsPlaying] = useState(false)
   const [isLoop, setIsLoop] = useState(false)
   const [currentTime, setCurrentTime] = useState(0)

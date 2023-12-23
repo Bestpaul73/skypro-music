@@ -10,6 +10,7 @@ const CenterBlockSearch = () => {
         type="search"
         placeholder="Поиск"
         name="search"
+        // defaultValue=""
       />
     </S.CenterBlockSearchDiv>
   )

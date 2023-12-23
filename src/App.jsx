@@ -2,17 +2,20 @@ import { createContext, useEffect, useState } from 'react'
 import * as S from './App.styles'
 import { AppRoutes } from './routes'
 import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
+import { useDispatch } from 'react-redux'
 
 export const userContext = createContext()
 
 const App = () => {
-  const [currentTrack, setCurrentTrack] = useState(null)
+  // const [currentTrack, setCurrentTrack] = useState(null)
+  const dispatch = useDispatch()
+  
 
   const [user, setUser] = useState(localStorage.getItem('user'))
 
   const handleLogoff = () => {
     setUser(null)
-    setCurrentTrack(null)
+    dispatch(setCurrentTrack(null))
     localStorage.removeItem('user')
   }
 
@@ -23,7 +26,12 @@ const App = () => {
 
   return (
     <userContext.Provider
-      value={{ user, setUser, handleLogoff, currentTrack, setCurrentTrack }}
+      value={{
+        user,
+        setUser,
+        handleLogoff,
+        // , currentTrack, setCurrentTrack
+      }}
     >
       <S.WrapperDiv>
         <GlobalStyle />

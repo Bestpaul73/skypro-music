@@ -10,7 +10,6 @@ import { setCurrentTrack } from '../../store/playerSlice.js'
 const CenterBlockContent = () => {
   const { loading, setLoading } = useContext(loadingContext)
   // const {  setCurrentTrack } = useContext(userContext)
-  // let currentTrack = useSelector(state => state.playerApp.currentTrack)
   const dispatch = useDispatch()
 
   const [allTracks, setAllTracks] = useState([])
@@ -71,7 +70,7 @@ const CenterBlockContent = () => {
               <S.PlaylistItemDiv
                 key={track.id}
                 onClick={() => {
-                  dispatch(setCurrentTrack(track))
+                  dispatch(setCurrentTrack({track}))
                 }}
               >
                 <S.PlaylistTrackDiv>
