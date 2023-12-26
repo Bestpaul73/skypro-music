@@ -6,9 +6,12 @@ import {
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
 import { userContext } from '../../App'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import {  playTrack, stopTrack } from '../../store/playerSlice'
+
 
 const AudioPlayer = () => {
+  const dispatch = useDispatch()
   // const { currentTrack } = useContext(userContext)
   const currentTrack = useSelector(state => state.playerApp.currentTrack)
 
@@ -22,13 +25,15 @@ const AudioPlayer = () => {
   const track_file = currentTrack.track_file
 
   const handlePlay = () => {
+    dispatch(playTrack())
     audioRef.current.play()
-    setIsPlaying(true)
+    // setIsPlaying(true)
   }
 
   const handleStop = () => {
+    dispatch(stopTrack())
     audioRef.current.pause()
-    setIsPlaying(false)
+    // setIsPlaying(false)
   }
 
   const handleLoop = () => {

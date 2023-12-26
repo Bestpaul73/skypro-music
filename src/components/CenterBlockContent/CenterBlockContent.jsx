@@ -5,7 +5,7 @@ import * as S from './CenterBlockContent.styles.js'
 import { getAllTracks } from '../../api.js'
 import { userContext } from '../../App.jsx'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentTrack } from '../../store/playerSlice.js'
+import { setCurrentTrack, setPlayList } from '../../store/playerSlice.js'
 
 const CenterBlockContent = () => {
   const { loading, setLoading } = useContext(loadingContext)
@@ -71,6 +71,7 @@ const CenterBlockContent = () => {
                 key={track.id}
                 onClick={() => {
                   dispatch(setCurrentTrack({track}))
+                  dispatch(setPlayList({playList: allTracks}))
                 }}
               >
                 <S.PlaylistTrackDiv>

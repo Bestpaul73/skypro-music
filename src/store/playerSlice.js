@@ -3,27 +3,34 @@ import { createSlice } from '@reduxjs/toolkit'
 const playerSlice = createSlice({
   name: 'player',
   initialState: {
-    currentTrack: {},
+    isPlaying: false,
+    currentTrack: null,
     playList: [],
   },
   reducers: {
     setCurrentTrack(state, action) {
-      // console.log(state)
-      // console.log(action.payload.track)
       state.currentTrack = action.payload.track
     },
-    playTrack(state, action) {
-      console.log(state)
-      console.log(action)
+    setPlayList(state, action) {
+      state.playList = action.payload.playList
+      console.log(action.payload.playList)
     },
-    stopTrack(state, action) {},
+    playTrack(state, action) {
+      state.isPlaying = true
+      // console.log(state)
+      // console.log(action)
+    },
+    stopTrack(state, action) {
+      state.isPlaying = false
+
+    },
     nextTrack(state, action) {},
     prevTrack(state, action) {},
     shuffleTrack(state, action) {},
   },
 })
 
-export const { setCurrentTrack, playTrack, stopTrack, nextTrack, prevTrack, shuffleTrack } =
+export const { setCurrentTrack, setPlayList, playTrack, stopTrack, nextTrack, prevTrack, shuffleTrack } =
   playerSlice.actions
 
 export default playerSlice.reducer
