@@ -205,3 +205,25 @@ export const Rectangle13Div = styled.div`
   background: #313131;
   animation: ${SkeletonAnim} 3s linear infinite both;
 `
+
+export const PurpleDot = styled.div`
+  width: 150px;
+  height: 15px;
+  background-color: purple;
+  border-radius: 50%;
+`
+
+const blinkAnimation = keyframes`
+  0% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+`
+export const BlinkingDot = styled(PurpleDot)`
+  animation: ${blinkAnimation} 1s infinite;
+`

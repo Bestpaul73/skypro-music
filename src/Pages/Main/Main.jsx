@@ -6,7 +6,8 @@ import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 import { useState, useEffect, useContext } from 'react'
 import { loadingContext } from '../../Context'
 import { userContext } from '../../App'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { stopTrack } from '../../store/playerSlice'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)
