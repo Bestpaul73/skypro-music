@@ -3,6 +3,7 @@ import * as S from './App.styles'
 import { AppRoutes } from './routes'
 import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
 import { useDispatch } from 'react-redux'
+import { setCurrentTrack, stopTrack } from './store/playerSlice'
 
 export const userContext = createContext()
 
@@ -15,7 +16,8 @@ const App = () => {
 
   const handleLogoff = () => {
     setUser(null)
-    dispatch(setCurrentTrack(null))
+    dispatch(stopTrack())
+    // dispatch(setCurrentTrack(null))
     localStorage.removeItem('user')
   }
 

@@ -40,14 +40,14 @@ const playerSlice = createSlice({
       if (state.playList[state.currentTrackId + 1]) {
         state.currentTrack = state.playList[state.currentTrackId + 1]
         state.currentTrackId++
-      } else stopTrack()
+      }
     },
 
     prevTrack(state, action) {
       if (state.playList[state.currentTrackId - 1]) {
         state.currentTrack = state.playList[state.currentTrackId - 1]
         state.currentTrackId--
-      } else stopTrack()
+      }
     },
 
     shuffleTrack(state, action) {
@@ -67,7 +67,7 @@ const playerSlice = createSlice({
         state.playList = state.ordinalPlayList
       }
     },
-    
+
   },
 })
 

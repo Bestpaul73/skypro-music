@@ -3,6 +3,7 @@ import { loadingContext } from '../../Context'
 import * as S from './AudioPlayer.styles'
 import {
   ProgressInputTrack,
+  ProgressInputTrackDefault,
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
 import { userContext } from '../../App'
@@ -113,7 +114,7 @@ const AudioPlayer = () => {
 
           {audioRef.current.duration ? (
             <ProgressInputTrack ref={audioRef} />
-          ) : null}
+          ) : <ProgressInputTrackDefault />}
 
           <S.BarPlayerBlockDiv>
             <S.BarPlayerDiv>
