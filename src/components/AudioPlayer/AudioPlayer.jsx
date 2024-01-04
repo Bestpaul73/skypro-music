@@ -112,9 +112,7 @@ const AudioPlayer = () => {
             {currentTime} / {duration}
           </S.TimeCode>
 
-          {audioRef.current.duration ? (
-            <ProgressInputTrack ref={audioRef} />
-          ) : <ProgressInputTrackDefault />}
+          {audioRef.current && <ProgressInputTrack ref={audioRef} />}
 
           <S.BarPlayerBlockDiv>
             <S.BarPlayerDiv>

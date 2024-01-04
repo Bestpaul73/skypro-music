@@ -22,6 +22,13 @@ const playerSlice = createSlice({
       console.log(state.currentTrackId)
     },
 
+    clearCurrentTrack(state, action) {
+      state.isPlaying = false
+      state.isShuffle = false
+      state.currentTrack = null
+      state.currentTrackId = null
+    },
+
     setPlayList(state, action) {
       state.playList = action.payload.playList
       state.shuffledPlayList = action.payload.playList
@@ -67,12 +74,12 @@ const playerSlice = createSlice({
         state.playList = state.ordinalPlayList
       }
     },
-
   },
 })
 
 export const {
   setCurrentTrack,
+  clearCurrentTrack,
   setPlayList,
   playTrack,
   stopTrack,
