@@ -47,7 +47,7 @@ const playerSlice = createSlice({
       if (state.playList[state.currentTrackId + 1]) {
         state.currentTrack = state.playList[state.currentTrackId + 1]
         state.currentTrackId++
-      }
+      } 
     },
 
     prevTrack(state, action) {

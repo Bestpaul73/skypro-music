@@ -14,12 +14,15 @@ import {
   playTrack,
   stopTrack,
   shuffleTrack,
+  clearCurrentTrack,
 } from '../../store/playerSlice'
 
 const AudioPlayer = () => {
   const dispatch = useDispatch()
   // const { currentTrack } = useContext(userContext)
-  const currentTrack = useSelector((state) => state.playerApp.currentTrack)
+  const { currentTrack, currentTrackId, playList } = useSelector(
+    (state) => state.playerApp,
+  )
 
   // const [isPlaying, setIsPlaying] = useState(false)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
@@ -33,10 +36,27 @@ const AudioPlayer = () => {
 
   const track_file = currentTrack.track_file
 
+  // const handlePlay = () => {
+  //   dispatch(playTrack())
+  //   console.log('заиграли снова')
+  //   audioRef.current.play().catch((error) => {
+  //     console.log(error)
+  //     audioRef.current.pause()
+  //   })
+  // }
+
+  useEffect(() => {
+    if (!isPlaying) {
+      audioRef.current.pause()
+    }
+  }, [isPlaying])
+
   const handlePlay = () => {
     dispatch(playTrack())
-    console.log('заиграли снова')
-    audioRef.current.play()
+    if (audioRef.current.paused) {
+      // audioRef.current.src = track_file
+      audioRef.current.play().catch((err) => audioRef.current.pause())
+    }
   }
 
   const handleStop = () => {
@@ -80,9 +100,16 @@ const AudioPlayer = () => {
   }, [currentTrack])
 
   const handleEndTrack = () => {
-    dispatch(nextTrack())
+    if (playList[currentTrackId + 1]) {
+      dispatch(nextTrack())
+    } else {
+      dispatch(stopTrack())
+      dispatch(clearCurrentTrack())
+    }
     setCurrentTime(timeToString(0))
   }
+
+  useEffect(() => {}, [currentTrack])
 
   useEffect(() => {
     const handleTimeUpdate = () => {
