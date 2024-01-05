@@ -9,6 +9,7 @@ import {
   setCurrentTrack,
   setPlayList,
   stopTrack,
+  clearCurrentTrack,
 } from '../../store/playerSlice.js'
 import { current } from '@reduxjs/toolkit'
 
@@ -16,22 +17,22 @@ const CenterBlockContent = () => {
   const { loading, setLoading } = useContext(loadingContext)
   // const {  setCurrentTrack } = useContext(userContext)
   const dispatch = useDispatch()
+  // dispatch(clearCurrentTrack()) - ошибка
   const currentTrack = useSelector((state) => state.playerApp.currentTrack)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
 
   // const [allTracks, setAllTracks] = useState([])
   const allTracks = useSelector((state) => state.playerApp.ordinalPlayList)
   const [getTracksError, setGetTracksError] = useState(null)
-  
-  
+
   useEffect(() => {
     getAllTracks()
-    .then((allTracks) => {
-      // setAllTracks(allTracks)
-      dispatch(setPlayList({ playList: allTracks }))
-      console.log('получили все треки')
-      console.log(allTracks)
-    })
+      .then((allTracks) => {
+        // setAllTracks(allTracks)
+        dispatch(setPlayList({ playList: allTracks }))
+        console.log('получили все треки')
+        console.log(allTracks)
+      })
       .catch((error) => {
         console.log(`Ошибка загрузки`)
         setGetTracksError(error.message)
@@ -41,7 +42,6 @@ const CenterBlockContent = () => {
         console.log(isPlaying)
       })
   }, [])
-
 
   const durationToString = (duration) => {
     let minutes = String(Math.trunc(duration / 60))
