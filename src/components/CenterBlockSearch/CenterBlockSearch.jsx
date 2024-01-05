@@ -7,9 +7,10 @@ const CenterBlockSearch = () => {
         <use xlinkHref="img/icon/sprite.svg#icon-search" />
       </S.SearchSvg>
       <S.SearchTextInput
-        type="search"
+        type="text"
         placeholder="Поиск"
         name="search"
+        // defaultValue=""
       />
     </S.CenterBlockSearchDiv>
   )

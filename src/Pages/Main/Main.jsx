@@ -6,10 +6,13 @@ import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 import { useState, useEffect, useContext } from 'react'
 import { loadingContext } from '../../Context'
 import { userContext } from '../../App'
+import { useDispatch, useSelector } from 'react-redux'
+import { stopTrack } from '../../store/playerSlice'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)
-  const { currentTrack } = useContext(userContext)
+  // const { currentTrack } = useContext(userContext)
+  const currentTrack = useSelector((state) => state.playerApp.currentTrack)
 
   // useEffect(() => {
   //   const timeoutId = setTimeout(() => {
@@ -26,7 +29,7 @@ export const Main = () => {
         <NavMenu />
         <MainCenterBlock />
         <MainSideBar />
-        {currentTrack ? <AudioPlayer /> : null}
+        {currentTrack && <AudioPlayer />}
       </MainDiv>
     </loadingContext.Provider>
   )
