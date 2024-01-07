@@ -9,6 +9,7 @@ import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
 import { userContext } from './App'
 import { useContext } from 'react'
 import AuthPage from './Pages/Auth/AuthPage'
+import CenterBlockContent from './components/CenterBlockContent/CenterBlockContent'
 
 export const AppRoutes = () => {
   const { user } = useContext(userContext)
@@ -23,9 +24,12 @@ export const AppRoutes = () => {
           <ProtectedRoute redirectPath={'/Login'} isAllowed={Boolean(user)} />
         }
       >
-        <Route path="/" element={<Main />} />
-        <Route path="/Favorites" element={<Favorites />} />
-        <Route path="/Category/:id" element={<Category />} />
+        <Route path="/" element={<Main />}>
+          <Route index element={<CenterBlockContent />} />
+          <Route path="/Favorites" element={<Favorites />} />
+          <Route path="/Category/:id" element={<Category />} />
+        </Route>
+
       </Route>
 
       <Route path="*" element={<NotFound />} />

@@ -54,8 +54,7 @@ const AudioPlayer = () => {
   const handlePlay = () => {
     dispatch(playTrack())
     if (audioRef.current.paused) {
-      // audioRef.current.src = track_file
-      audioRef.current.play().catch((err) => audioRef.current.pause())
+      audioRef.current.play().catch(() => audioRef.current.pause())
     }
   }
 
@@ -72,12 +71,24 @@ const AudioPlayer = () => {
   const handleNextTrack = () => {
     dispatch(nextTrack())
   }
+
   const handlePrevTrack = () => {
     if (audioRef.current.currentTime > 5) audioRef.current.currentTime = 0
     else dispatch(prevTrack())
   }
+
   const handleShuffleTrack = () => {
     dispatch(shuffleTrack())
+  }
+
+  const handleEndTrack = () => {
+    if (playList[currentTrackId + 1]) {
+      dispatch(nextTrack())
+    } else {
+      dispatch(stopTrack())
+      dispatch(clearCurrentTrack())
+    }
+    setCurrentTime(timeToString(0))
   }
 
   const timeToString = (time) => {
@@ -92,24 +103,8 @@ const AudioPlayer = () => {
   }
 
   useEffect(() => {
-    // if (isPlaying)
-    {
-      handlePlay()
-      console.log('useEffect handlePlay')
-    }
+    handlePlay()
   }, [currentTrack])
-
-  const handleEndTrack = () => {
-    if (playList[currentTrackId + 1]) {
-      dispatch(nextTrack())
-    } else {
-      dispatch(stopTrack())
-      dispatch(clearCurrentTrack())
-    }
-    setCurrentTime(timeToString(0))
-  }
-
-  useEffect(() => {}, [currentTrack])
 
   useEffect(() => {
     const handleTimeUpdate = () => {

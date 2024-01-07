@@ -2,12 +2,17 @@ import { NavMenu } from '../../components/NavMenu/NavMenu'
 import MainCenterBlock from '../../components/MainCenterBlock/MainCenterBlock'
 import MainSideBar from '../../components/MainSideBar/MainSideBar'
 import { MainDiv } from './Main.styles'
+import * as S from './Main.styles'
+import CenterBlockContent from '../../components/CenterBlockContent/CenterBlockContent'
+import CenterBlockFilter from '../../components/CenterBlockFilter/CenterBlockFilter'
+import CenterBlockSearch from '../../components/CenterBlockSearch/CenterBlockSearch'
 import AudioPlayer from '../../components/AudioPlayer/AudioPlayer'
 import { useState, useEffect, useContext } from 'react'
 import { loadingContext } from '../../Context'
 import { userContext } from '../../App'
 import { useDispatch, useSelector } from 'react-redux'
 import { stopTrack } from '../../store/playerSlice'
+import { Outlet } from 'react-router-dom'
 
 export const Main = () => {
   const [loading, setLoading] = useState(true)
@@ -27,7 +32,18 @@ export const Main = () => {
     <loadingContext.Provider value={{ loading, setLoading }}>
       <MainDiv>
         <NavMenu />
-        <MainCenterBlock />
+
+        {/* <MainCenterBlock /> */}
+        <S.MainCenterBlockDiv>
+          <CenterBlockSearch />
+          <S.CenterBlockH2>Треки</S.CenterBlockH2>
+          <CenterBlockFilter />
+
+          {/* <CenterBlockContent /> */}
+          <Outlet/>
+
+        </S.MainCenterBlockDiv>
+
         <MainSideBar />
         {currentTrack && <AudioPlayer />}
       </MainDiv>
