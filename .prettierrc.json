@@ -1,4 +1,5 @@
 {
   "semi": false,
+  "trimTrailingWhitespace": true,
   "singleQuote": true
 }

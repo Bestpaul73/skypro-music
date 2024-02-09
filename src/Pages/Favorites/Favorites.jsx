@@ -15,11 +15,9 @@ export const Favorites = () => {
   const { loading, setLoading } = useContext(loadingContext)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
 
-  const handleGetFavoritesTracks = () => {
-    console.log('1')
-    const { favoritesTracks, isError } = useGetFavoritesTracksQuery()
-    console.log('2')
+  const { favoritesTracks, isError } = useGetFavoritesTracksQuery()
 
+  const handleGetFavoritesTracks = () => {
     if (isError) console.log(`Ошибка загрузки`)
     else {
       console.log('3')
