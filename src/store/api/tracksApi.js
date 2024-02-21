@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import { deleteUser } from '../userSlice'
+import { deleteUser, setAuth } from '../userSlice'
 
 // const HOST = 'https://skypro-music-api.skyeng.tech/'
 
@@ -56,7 +56,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
   const { auth } = api.getState()
   console.debug('Данные пользователя в сторе', { auth })
   // Если в сторе нет refresh токена, то помочь пользователю мы уже ничем не сможем, разлогиниваем его и отправляем авторизоваться руками
-  if (!auth.refresh) {
+  if (!auth.refreshToken) {
     return forceLogout()
   }
 
