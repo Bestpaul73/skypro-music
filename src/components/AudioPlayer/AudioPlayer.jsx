@@ -6,7 +6,7 @@ import {
   ProgressInputTrackDefault,
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
-import { userContext } from '../../App'
+import { UserContext } from '../../App'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   nextTrack,
@@ -19,7 +19,7 @@ import {
 
 const AudioPlayer = () => {
   const dispatch = useDispatch()
-  // const { currentTrack } = useContext(userContext)
+  // const { currentTrack } = useContext(UserContext)
   const { currentTrack, currentTrackId, playList } = useSelector(
     (state) => state.playerApp,
   )

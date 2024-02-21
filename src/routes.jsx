@@ -6,14 +6,14 @@ import { Favorites } from './Pages/Favorites/Favorites'
 import { NotFound } from './Pages/not-found'
 import { Category } from './Pages/Category'
 import { ProtectedRoute } from './components/ProtectedRoute/ProtectedRoute'
-import { userContext } from './App'
+import { UserContext } from './App'
 import { useContext } from 'react'
 import AuthPage from './Pages/Auth/AuthPage'
 import CenterBlockContent from './components/CenterBlockContent/CenterBlockContent'
 import { MainTracks } from './Pages/MainTracks/MainTracks'
 
 export const AppRoutes = () => {
-  const { user } = useContext(userContext)
+  const { user } = useContext(UserContext)
 
   return (
     <Routes>

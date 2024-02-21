@@ -1,16 +1,16 @@
 import { useContext } from 'react'
 import { loadingContext } from '../../Context'
 import * as S from './MainSideBar.styles.js'
-import { userContext } from '../../App.jsx'
+import { UserContext } from '../../App.jsx'
 
 const MainSideBar = () => {
   const { loading } = useContext(loadingContext)
-  const { user, handleLogoff } = useContext(userContext)
+  const { user, handleLogoff } = useContext(UserContext)
 
   return (
     <S.MainSideBarDiv>
       <S.SideBarPersonalDiv>
-        <S.SideBarPersonalName>{user}</S.SideBarPersonalName>
+        <S.SideBarPersonalName>{user.username}</S.SideBarPersonalName>
         <S.SideBarIconDiv onClick={handleLogoff} to="./login">
           <svg alt="logout">
             <use xlinkHref="img/icon/sprite.svg#logout" />

@@ -2,10 +2,14 @@ import { Link, useNavigate } from 'react-router-dom'
 import * as S from './AuthPage.styles'
 import { useContext, useEffect, useState } from 'react'
 import { userLogin, userRegister } from '../../api'
-import { userContext } from '../../App'
+import { UserContext } from '../../App'
+import { useGetTokenMutation } from '../../store/api/authApi'
+import { useDispatch } from 'react-redux'
+import { setAuth } from '../../store/userSlice'
 
 export default function AuthPage({ isLoginMode }) {
-  const { setUser } = useContext(userContext)
+  const dispatch = useDispatch()
+  const { setUser } = useContext(UserContext)
   const navigate = useNavigate()
 
   const [error, setError] = useState(null)
@@ -13,6 +17,8 @@ export default function AuthPage({ isLoginMode }) {
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
+
+  const [getToken, { data }] = useGetTokenMutation()
 
   const getErrorMessage = (obj) => {
     for (let key in obj) {
@@ -26,7 +32,7 @@ export default function AuthPage({ isLoginMode }) {
 
   const handleLogin = (user) => {
     setUser(user)
-    localStorage.setItem('user', user)
+    localStorage.setItem('user', JSON.stringify(user))
   }
 
   const handleLoginAPI = async ({ email, password }) => {
@@ -42,7 +48,20 @@ export default function AuthPage({ isLoginMode }) {
       .then((responseData) => {
         if (responseData.id) {
           // alert(`Пользователь ${responseData.username} успешно авторизован`)
-          handleLogin(responseData.username)
+          handleLogin(responseData)
+          getToken({ email, password })
+            .unwrap()
+            .then((data) => {
+              localStorage.setItem('accessToken', data.access)
+              localStorage.setItem('refreshToken', data.refresh)
+              dispatch(
+                setAuth({
+                  accessToken: data.access,
+                  refreshToken: data.refresh,
+                }),
+              )
+            })
+
           // window.location.href = '/'
           navigate('/')
           return
