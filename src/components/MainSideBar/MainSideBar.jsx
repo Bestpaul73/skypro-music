@@ -19,34 +19,28 @@ const MainSideBar = () => {
       </S.SideBarPersonalDiv>
       <S.SideBarBlockDiv>
         <S.SideBarListDiv>
-          {loading ? (
-            <S.SideBarItemSkeletonDiv />
-          ) : (
+          
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/1">
                 <S.SideBarImg src="img/playlist01.png" alt="day's playlist" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
-          )}
-          {loading ? (
-            <S.SideBarItemSkeletonDiv />
-          ) : (
+          
+          
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/2">
                 <S.SideBarImg src="img/playlist02.png" alt="day's playlist" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
-          )}
+        
 
-          {loading ? (
-            <S.SideBarItemSkeletonDiv />
-          ) : (
+        
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/3">
                 <S.SideBarImg src="img/playlist03.png" alt="day's playlist" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
-          )}
+         
         </S.SideBarListDiv>
       </S.SideBarBlockDiv>
     </S.MainSideBarDiv>

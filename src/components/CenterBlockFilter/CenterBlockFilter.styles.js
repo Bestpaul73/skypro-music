@@ -52,7 +52,8 @@ export const FilterBoxDiv = styled.div`
   border-radius: 12px;
   background: #313131;
   width: 248px;
-  height: 305px;
+  max-height: 305px;
+  height: fit-content;
   position: absolute;
   top: 50px;
   left: 0px;
@@ -65,7 +66,7 @@ export const FilterListUl = styled.ul`
   overflow: scroll;
   overflow-y: scroll;
   width: 180px;
-  height: 232px;
+  max-height: 232px;
   &::-webkit-scrollbar {
     width: 4px;
     height: 0px;

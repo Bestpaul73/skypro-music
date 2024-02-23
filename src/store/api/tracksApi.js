@@ -30,7 +30,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       return headers
     },
   })
-
+console.log(args);
   // Делаем запрос
   const result = await baseQuery(args, api, extraOptions)
   console.debug('Результат первого запроса', { result })
@@ -116,6 +116,7 @@ export const tracksApi = createApi({
 
         const tracks = response.map((track) => {
           const user = track.stared_user.find((el) => el.id === userId)
+          console.log(user);
           return {
             ...track,
             isLiked: !!user,
