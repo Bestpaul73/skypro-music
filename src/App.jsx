@@ -5,7 +5,7 @@ import { GlobalStyle } from './components/GlobalStyle/GlobalStyle'
 import { useDispatch } from 'react-redux'
 import { setCurrentTrack, stopTrack, clearCurrentTrack } from './store/playerSlice'
 
-export const userContext = createContext()
+export const UserContext = createContext()
 
 const App = () => {
   // const [currentTrack, setCurrentTrack] = useState(null)
@@ -27,7 +27,7 @@ const App = () => {
   // }, [user])
 
   return (
-    <userContext.Provider
+    <UserContext.Provider
       value={{
         user,
         setUser,
@@ -41,7 +41,7 @@ const App = () => {
           <AppRoutes />
         </S.ContainerDiv>
       </S.WrapperDiv>
-    </userContext.Provider>
+    </UserContext.Provider>
   )
 }
 

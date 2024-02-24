@@ -1,52 +1,40 @@
-import { useContext, useDebugValue, useEffect, useState } from 'react'
+import { useContext, useEffect, useState } from 'react'
 import { loadingContext } from '../../Context'
 import PlayListItemSkeleton from './PlayListItemSkeleton'
 import * as S from './CenterBlockContent.styles.js'
-import { getAllTracks } from '../../api.js'
-import { userContext } from '../../App.jsx'
 import { useDispatch, useSelector } from 'react-redux'
+import { setCurrentTrack } from '../../store/playerSlice.js'
 import {
-  setCurrentTrack,
-  setPlayList,
-  stopTrack,
-  clearCurrentTrack,
-} from '../../store/playerSlice.js'
-import { current } from '@reduxjs/toolkit'
+  useSetDisLikeMutation,
+  useSetLikeMutation,
+} from '../../store/api/tracksApi.js'
 
-const CenterBlockContent = () => {
-  const { loading, setLoading } = useContext(loadingContext)
-  // const {  setCurrentTrack } = useContext(userContext)
+const CenterBlockContent = ({ tracks, isLoading, error }) => {
+  // const { loading, setLoading } = useContext(loadingContext)
+  // const { getTracksError, setGetTracksError } = useContext(loadingContext)
+  // const {  setCurrentTrack } = useContext(UserContext)
+  const [setDisLike] = useSetDisLikeMutation()
+  const [setLike] = useSetLikeMutation()
   const dispatch = useDispatch()
-  // dispatch(clearCurrentTrack()) - ошибка
   const currentTrack = useSelector((state) => state.playerApp.currentTrack)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
-
   // const [allTracks, setAllTracks] = useState([])
-  const allTracks = useSelector((state) => state.playerApp.ordinalPlayList)
-  const [getTracksError, setGetTracksError] = useState(null)
 
-  useEffect(() => {
-    getAllTracks()
-      .then((allTracks) => {
-        // setAllTracks(allTracks)
-        dispatch(setPlayList({ playList: allTracks }))
-        console.log('получили все треки')
-        console.log(allTracks)
-      })
-      .catch((error) => {
-        console.log(`Ошибка загрузки`)
-        setGetTracksError(error.message)
-      })
-      .finally(() => {
-        setLoading(false)
-        console.log(isPlaying)
-      })
-  }, [])
+  // const allTracks = useSelector((state) => state.playerApp.ordinalPlayList)
+
+  // useEffect(() => {
+  //   props.getAnyTracks()
+  // }, [])
 
   const durationToString = (duration) => {
     let minutes = String(Math.trunc(duration / 60))
     let seconds = String(duration % 60)
     return `${minutes.padStart(2, 0)}:${seconds.padStart(2, 0)}`
+  }
+
+  const handleToggleLike = (e, id, isLiked) => {
+    e.stopPropagation()
+    isLiked ? setDisLike({ id }) : setLike({ id })
   }
 
   return (
@@ -63,7 +51,7 @@ const CenterBlockContent = () => {
       </S.ContentTitleDiv>
 
       <S.ContentPlaylistDiv>
-        {loading ? (
+        {isLoading ? (
           <>
             <PlayListItemSkeleton />
             <PlayListItemSkeleton />
@@ -79,7 +67,7 @@ const CenterBlockContent = () => {
             <PlayListItemSkeleton />
           </>
         ) : (
-          allTracks.map((track) => {
+          tracks?.map((track) => {
             return (
               <S.PlaylistItemDiv
                 key={track.id}
@@ -119,9 +107,21 @@ const CenterBlockContent = () => {
                   </S.TrackAlbumDiv>
 
                   <S.TrackTimeDiv>
-                    <S.TrackTimeSvg alt="time">
-                      <use xlinkHref="img/icon/sprite.svg#icon-like" />
-                    </S.TrackTimeSvg>
+                    <button
+                      type="button"
+                      onClick={(e) =>
+                        handleToggleLike(e, track.id, track.isLiked)
+                      }
+                    >
+                      <S.TrackTimeSvg alt="time">
+                        <use
+                          xlinkHref={`img/icon/sprite.svg#icon-${
+                            track.isLiked ? '' : 'dis'
+                          }likeMy`}
+                        />
+                      </S.TrackTimeSvg>
+                    </button>
+
                     <S.TrackTimeTextSpan>
                       {durationToString(track.duration_in_seconds)}
                     </S.TrackTimeTextSpan>
@@ -132,9 +132,10 @@ const CenterBlockContent = () => {
           })
         )}
 
-        {getTracksError ? (
+        {error ? (
           <p>
-            Не удалось загрузить плейлист, попробуйте позже. {getTracksError}
+            Не удалось загрузить плейлист, попробуйте позже.
+            {/* {error.data} */}
           </p>
         ) : null}
       </S.ContentPlaylistDiv>
