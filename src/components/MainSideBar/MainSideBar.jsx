@@ -10,10 +10,10 @@ const MainSideBar = () => {
   return (
     <S.MainSideBarDiv>
       <S.SideBarPersonalDiv>
-        <S.SideBarPersonalName>{user.username}</S.SideBarPersonalName>
+        <S.SideBarPersonalName>{user?.username}</S.SideBarPersonalName>
         <S.SideBarIconDiv onClick={handleLogoff} to="./login">
           <svg alt="logout">
-            <use xlinkHref="img/icon/sprite.svg#logout" />
+            <use xlinkHref="/img/icon/sprite.svg#logout" />
           </svg>
         </S.SideBarIconDiv>
       </S.SideBarPersonalDiv>
@@ -22,14 +22,14 @@ const MainSideBar = () => {
           
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/1">
-                <S.SideBarImg src="img/playlist01.png" alt="day's playlist" />
+                <S.SideBarImg src="/img/playlist-classic.png" alt="playlist-classic" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
           
           
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/2">
-                <S.SideBarImg src="img/playlist02.png" alt="day's playlist" />
+                <S.SideBarImg src="/img/playlist-electro.png" alt="playlist-electro" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
         
@@ -37,7 +37,7 @@ const MainSideBar = () => {
         
             <S.SideBarItemDiv>
               <S.RouteSideBarLink to="/Category/3">
-                <S.SideBarImg src="img/playlist03.png" alt="day's playlist" />
+                <S.SideBarImg src="/img/playlist-rock.png" alt="playlist-rock" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
          

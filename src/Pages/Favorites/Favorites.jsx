@@ -46,9 +46,8 @@ export const Favorites = () => {
 
   return (
     <>
-      {/* <CenterBlockSearch /> */}
+      <CenterBlockSearch />
       <S.CenterBlockH2>Избранные треки</S.CenterBlockH2>
-      {/* <CenterBlockFilter /> */}
       <CenterBlockContent tracks={data} isLoading={isLoading} error={error} />
     </>
   )

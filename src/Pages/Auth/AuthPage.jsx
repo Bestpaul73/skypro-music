@@ -5,7 +5,7 @@ import { userLogin, userRegister } from '../../api'
 import { UserContext } from '../../App'
 import { useGetTokenMutation } from '../../store/api/authApi'
 import { useDispatch } from 'react-redux'
-import { setAuth } from '../../store/userSlice'
+import { setAuth, setUser } from '../../store/userSlice'
 
 export default function AuthPage({ isLoginMode }) {
   const dispatch = useDispatch()
@@ -32,6 +32,7 @@ export default function AuthPage({ isLoginMode }) {
 
   const handleLogin = (user) => {
     setUser(user)
+    console.log(user)
     localStorage.setItem('user', JSON.stringify(user))
   }
 

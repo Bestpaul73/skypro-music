@@ -3,11 +3,12 @@ import { loadingContext } from '../../Context'
 import PlayListItemSkeleton from './PlayListItemSkeleton'
 import * as S from './CenterBlockContent.styles.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { setCurrentTrack } from '../../store/playerSlice.js'
+import { changeTrackLike, setCurrentTrack } from '../../store/playerSlice.js'
 import {
   useSetDisLikeMutation,
   useSetLikeMutation,
 } from '../../store/api/tracksApi.js'
+// import { handleToggleLike } from '../toggleLike/toggleLike.js'
 
 const CenterBlockContent = ({ tracks, isLoading, error }) => {
   // const { loading, setLoading } = useContext(loadingContext)
@@ -35,7 +36,9 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
   const handleToggleLike = (e, id, isLiked) => {
     e.stopPropagation()
     isLiked ? setDisLike({ id }) : setLike({ id })
+    if ( id === currentTrack?.id) dispatch(changeTrackLike( {isLiked: !currentTrack.isLiked}))
   }
+console.log(tracks);
 
   return (
     <S.CenterBlockContentDiv>
@@ -80,7 +83,7 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
                     <S.TrackTitleImageDiv>
                       {!currentTrack || currentTrack.id !== track.id ? (
                         <S.TrackTitleSvg alt="music">
-                          <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                          <use xlinkHref="/img/icon/sprite.svg#icon-note" />
                         </S.TrackTitleSvg>
                       ) : isPlaying ? (
                         <S.BlinkingDot />
@@ -113,9 +116,9 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
                         handleToggleLike(e, track.id, track.isLiked)
                       }
                     >
-                      <S.TrackTimeSvg alt="time">
+                      <S.TrackTimeSvg alt="like">
                         <use
-                          xlinkHref={`img/icon/sprite.svg#icon-${
+                          xlinkHref={`/img/icon/sprite.svg#icon-${
                             track.isLiked ? '' : 'dis'
                           }likeMy`}
                         />
