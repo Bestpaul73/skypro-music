@@ -31,7 +31,8 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       return headers
     },
   })
-  console.log(args)
+  // console.log(args)
+  
   // Делаем запрос
   const result = await baseQuery(args, api, extraOptions)
   console.debug('Результат первого запроса', { result })
@@ -115,12 +116,12 @@ export const tracksApi = createApi({
     getAllTracks: build.query({
       query: () => `catalog/track/all/`,
       transformResponse: (response) => {
-        console.log(response)
+        // console.log(response)
         let userId = localStorage.getItem('user')
         if (userId) {
           userId = JSON.parse(userId).id
         }
-        console.log(userId, 'All')
+        // console.log(userId, 'All')
 
         const tracks = response.map((track) => {
           const user = track.stared_user.find((el) => el.id === userId)

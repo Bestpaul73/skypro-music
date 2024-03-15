@@ -36,9 +36,10 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
   const handleToggleLike = (e, id, isLiked) => {
     e.stopPropagation()
     isLiked ? setDisLike({ id }) : setLike({ id })
-    if ( id === currentTrack?.id) dispatch(changeTrackLike( {isLiked: !currentTrack.isLiked}))
+    if (id === currentTrack?.id)
+      dispatch(changeTrackLike({ isLiked: !currentTrack.isLiked }))
   }
-console.log(tracks);
+  // console.log(tracks);
 
   return (
     <S.CenterBlockContentDiv>

@@ -88,15 +88,20 @@ const playerSlice = createSlice({
 
     setFilters(state, action) {
       const { filterName, filterValue } = action.payload
-      console.log(filterName, filterValue)
+
+      if (filterName === 'dateOrder') {
+        state.filters[filterName] = filterValue
+        return
+      }
+      
       if (state.filters[filterName].includes(filterValue)) {
         state.filters[filterName] = state.filters[filterName].filter(
           (el) => el.toLowerCase() !== filterValue.toLowerCase(),
         )
-        console.log(Object.values(state.filters[filterName]))
+        // console.log(Object.values(state.filters[filterName]))
       } else {
         state.filters[filterName].push(filterValue)
-        console.log(Object.values(state.filters[filterName]))
+        // console.log(Object.values(state.filters[filterName]))
       }
     },
   },

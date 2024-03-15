@@ -12,19 +12,25 @@ const CenterBlockFilter = () => {
   const [genreList, setGenreList] = useState([])
   const { playList } = useSelector((state) => state.playerApp)
   const dispatch = useDispatch()
+  // const filterConditionAuthorArr = useSelector(
+  //   (state) => state.playerApp.filters['authors'],
+  // )
+  // const filterConditionGenreArr = useSelector(
+  //   (state) => state.playerApp.filters['genre'],
+  // )
+  const filterConditionArr = useSelector((state) => state.playerApp.filters)
+  console.log(filterConditionArr)
 
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)
   }
 
+  //создаем массивы уникальных имен авторов и жанров
   useEffect(() => {
     if (playList.length) {
-      console.log(playList)
-
       const authors = playList.map((el) => el.author)
       const authorSet = new Set(authors)
       setAuthorList(Array.from(authorSet))
-      console.log(authors, authorSet);
 
       const genre = playList.map((el) => el.genre)
       const genreSet = new Set(genre)
@@ -44,6 +50,11 @@ const CenterBlockFilter = () => {
           >
             исполнителю
           </S.FilterButton>
+
+          {filterConditionArr.authors.length !== 0 ? (
+            <S.Counter>{`${filterConditionArr.authors.length}`}</S.Counter>
+          ) : null}
+
           {visibleFilter === 'author' && (
             <S.FilterBoxDiv>
               <S.FilterListUl>
@@ -58,6 +69,7 @@ const CenterBlockFilter = () => {
                         }),
                       )
                     }
+                    $props={filterConditionArr.authors.includes(item)}
                   >
                     {item}
                   </S.FilterItem>
@@ -74,6 +86,11 @@ const CenterBlockFilter = () => {
           >
             жанру
           </S.FilterButton>
+
+          {filterConditionArr.genre.length !== 0 ? (
+            <S.Counter>{`${filterConditionArr.genre.length}`}</S.Counter>
+          ) : null}
+
           {visibleFilter === 'genre' && (
             <S.FilterBoxDiv>
               <S.FilterListUl>
@@ -88,6 +105,7 @@ const CenterBlockFilter = () => {
                         }),
                       )
                     }
+                    $props={filterConditionArr.genre.includes(item)}
                   >
                     {item}
                   </S.FilterItem>
@@ -106,13 +124,31 @@ const CenterBlockFilter = () => {
             $isActive={visibleFilter === 'year'}
             onClick={() => toggleVisibleFilter('year')}
           >
-            году выпуска
+            {filterConditionArr.dateOrder}
           </S.FilterButton>
+
+          {filterConditionArr.dateOrder != 'По умолчанию' ? (
+            <S.Counter>1</S.Counter>
+          ) : null}
+
           {visibleFilter === 'year' && (
             <S.FilterBoxDiv>
               <S.FilterListUl>
                 {dateSorting.map((item) => (
-                  <S.FilterItem key={item}>{item}</S.FilterItem>
+                  <S.FilterItem
+                    key={item}
+                    onClick={() =>
+                      dispatch(
+                        setFilters({
+                          filterName: 'dateOrder',
+                          filterValue: item,
+                        }),
+                      )
+                    }
+                    $props={filterConditionArr.dateOrder.includes(item)}
+                  >
+                    {item}
+                  </S.FilterItem>
                 ))}
               </S.FilterListUl>
             </S.FilterBoxDiv>

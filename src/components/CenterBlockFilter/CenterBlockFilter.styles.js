@@ -30,6 +30,7 @@ export const FilterButtonWrapper = styled.div`
   margin-right: 10px;
 `
 export const FilterButton = styled.button`
+  width: 166px;
   font-style: normal;
   font-weight: 400;
   font-size: 16px;
@@ -52,6 +53,24 @@ export const FilterButton = styled.button`
   border-color: ${(props) => (props.$isActive ? '#d9b6ff' : '#fff')};
   color: ${(props) => (props.$isActive ? '#d9b6ff' : '#fff')};
 `
+
+export const Counter = styled.div`
+  width: 26px;
+  height: 26px;
+  border-radius: 13px;
+  background: #ad61ff;
+  position: absolute;
+  color: #fff;
+  font-size: 13px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 13px;
+  text-align: center;
+  padding-top: 6.5px;
+  top: -10px;
+  left: 148px;
+`
+
 export const FilterBoxDiv = styled.div`
   padding: 34px;
   border-radius: 12px;
@@ -85,10 +104,15 @@ export const FilterListUl = styled.ul`
   }
 `
 export const FilterItem = styled.li`
+  color: ${(props) => (props.$props ? `#B672FF` : `#FFF`)};
   font-family: 'StratosSkyeng', sans-serif;
   font-size: 20px;
-  font-weight: 400;
+  font-weight: ${props=> props.$props ? `700` : `400`};
   line-height: 24px;
   letter-spacing: 0em;
   text-align: left;
+  &:hover {
+    color: #b672ff;
+    text-decoration-line: underline;
+  }
 `
