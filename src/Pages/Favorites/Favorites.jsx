@@ -14,6 +14,7 @@ export const Favorites = () => {
   const { getTracksError, setGetTracksError } = useContext(loadingContext)
   const { loading, setLoading } = useContext(loadingContext)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
+  const searchString = useSelector((state) => state.playerApp.searchString)
 
   // const { favoritesTracks, isError } = useGetFavoritesTracksQuery()
   const { data, isLoading, error } = useGetFavoritesTracksQuery()
@@ -44,11 +45,27 @@ export const Favorites = () => {
   //   //   })
   // }
 
+  const filterTracks = () => {
+    if (data?.length) {
+      let filteredTracks = [...data]
+
+      if (searchString?.length) {
+        filteredTracks = filteredTracks.filter((el) =>
+          el.name.toLowerCase().includes(searchString.toLowerCase()),
+        )
+      }
+      return filteredTracks
+    }
+    return []
+  }
+
+  const tracks = filterTracks()
+
   return (
     <>
       <CenterBlockSearch />
       <S.CenterBlockH2>Избранные треки</S.CenterBlockH2>
-      <CenterBlockContent tracks={data} isLoading={isLoading} error={error} />
+      <CenterBlockContent tracks={tracks} isLoading={isLoading} error={error} />
     </>
   )
 }

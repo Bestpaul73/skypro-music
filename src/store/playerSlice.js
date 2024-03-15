@@ -17,6 +17,7 @@ const playerSlice = createSlice({
       dateOrder: 'По умолчанию',
       genre: [],
     },
+    searchString: [],
   },
   reducers: {
     setCurrentTrack(state, action) {
@@ -93,7 +94,7 @@ const playerSlice = createSlice({
         state.filters[filterName] = filterValue
         return
       }
-      
+
       if (state.filters[filterName].includes(filterValue)) {
         state.filters[filterName] = state.filters[filterName].filter(
           (el) => el.toLowerCase() !== filterValue.toLowerCase(),
@@ -103,6 +104,10 @@ const playerSlice = createSlice({
         state.filters[filterName].push(filterValue)
         // console.log(Object.values(state.filters[filterName]))
       }
+    },
+
+    searchTracks(state, action) {
+      state.searchString = action.payload.value
     },
   },
 
@@ -127,6 +132,7 @@ export const {
   shuffleTrack,
   setFilters,
   changeTrackLike,
+  searchTracks,
 } = playerSlice.actions
 
 export default playerSlice.reducer

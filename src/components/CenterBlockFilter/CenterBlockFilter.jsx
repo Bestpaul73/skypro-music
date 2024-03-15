@@ -19,7 +19,7 @@ const CenterBlockFilter = () => {
   //   (state) => state.playerApp.filters['genre'],
   // )
   const filterConditionArr = useSelector((state) => state.playerApp.filters)
-  console.log(filterConditionArr)
+  // console.log(filterConditionArr)
 
   const toggleVisibleFilter = (filter) => {
     setVisibleFilter(visibleFilter === filter ? null : filter)

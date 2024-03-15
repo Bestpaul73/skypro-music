@@ -15,6 +15,8 @@ export const MainTracks = () => {
   // const { loading, setLoading } = useContext(loadingContext)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
   const filters = useSelector((state) => state.playerApp.filters)
+  const searchString = useSelector((state) => state.playerApp.searchString)
+  console.log(searchString)
 
   // const handleGetAllTracks = () => {
   //   getAllTracks()
@@ -34,6 +36,7 @@ export const MainTracks = () => {
   // }
 
   const { data, isLoading, error } = useGetAllTracksQuery()
+
   useEffect(() => {
     if (data?.length) dispatch(setPlayList({ playList: data }))
   }, [data])
@@ -65,7 +68,13 @@ export const MainTracks = () => {
           )
           break
       }
-      console.log(filteredTracks)
+
+      if (searchString?.length) {
+        filteredTracks = filteredTracks.filter((el) =>
+          el.name.toLowerCase().includes(searchString.toLowerCase()),
+        )
+      }
+
       return filteredTracks
     }
 
