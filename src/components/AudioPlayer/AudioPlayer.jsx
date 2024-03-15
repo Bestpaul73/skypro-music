@@ -15,12 +15,17 @@ import {
   stopTrack,
   shuffleTrack,
   clearCurrentTrack,
+  changeTrackLike,
 } from '../../store/playerSlice'
+import {
+  useSetDisLikeMutation,
+  useSetLikeMutation,
+} from '../../store/api/tracksApi'
 
 const AudioPlayer = () => {
   const dispatch = useDispatch()
   // const { currentTrack } = useContext(UserContext)
-  const { currentTrack, currentTrackId, playList } = useSelector(
+  let { currentTrack, currentTrackId, playList } = useSelector(
     (state) => state.playerApp,
   )
 
@@ -35,6 +40,9 @@ const AudioPlayer = () => {
   const audioRef = useRef('')
 
   const track_file = currentTrack.track_file
+
+  const [setDisLike] = useSetDisLikeMutation()
+  const [setLike] = useSetLikeMutation()
 
   // const handlePlay = () => {
   //   dispatch(playTrack())
@@ -125,6 +133,13 @@ const AudioPlayer = () => {
     }
   })
 
+  const handleToggleLike = (e, id, isLiked) => {
+    e.stopPropagation()
+    isLiked ? setDisLike({ id }) : setLike({ id })
+    dispatch(changeTrackLike({isLiked: !isLiked}))
+    console.log(currentTrack)
+  }
+
   return (
     <>
       <audio src={track_file} ref={audioRef}></audio>
@@ -141,27 +156,27 @@ const AudioPlayer = () => {
               <S.PlayerControlsDiv>
                 <S.PlayerBtnPrevDiv onClick={handlePrevTrack}>
                   <S.PlayerBtnPrevSvg alt="prev">
-                    <use xlinkHref="img/icon/sprite.svg#icon-prev" />
+                    <use xlinkHref="/img/icon/sprite.svg#icon-prev" />
                   </S.PlayerBtnPrevSvg>
                 </S.PlayerBtnPrevDiv>
 
                 {isPlaying ? (
                   <S.PlayerBtnPlayDiv className="_btn" onClick={handleStop}>
                     <S.PlayerBtnPlaySvg alt="stop">
-                      <use xlinkHref="img/icon/sprite.svg#icon-pause" />
+                      <use xlinkHref="/img/icon/sprite.svg#icon-pause" />
                     </S.PlayerBtnPlaySvg>
                   </S.PlayerBtnPlayDiv>
                 ) : (
                   <S.PlayerBtnPlayDiv className="_btn" onClick={handlePlay}>
                     <S.PlayerBtnPlaySvg alt="play">
-                      <use xlinkHref="img/icon/sprite.svg#icon-play" />
+                      <use xlinkHref="/img/icon/sprite.svg#icon-play" />
                     </S.PlayerBtnPlaySvg>
                   </S.PlayerBtnPlayDiv>
                 )}
 
                 <S.PlayerBtnNextDiv onClick={handleNextTrack}>
                   <S.PlayerBtnNextSvg alt="next">
-                    <use xlinkHref="img/icon/sprite.svg#icon-next" />
+                    <use xlinkHref="/img/icon/sprite.svg#icon-next" />
                   </S.PlayerBtnNextSvg>
                 </S.PlayerBtnNextDiv>
 
@@ -170,13 +185,13 @@ const AudioPlayer = () => {
                   onClick={handleLoop}
                 >
                   <S.PlayerBtnRepeatSvg alt="repeat" $stroke={isLoop}>
-                    <use xlinkHref="img/icon/sprite.svg#icon-repeat" />
+                    <use xlinkHref="/img/icon/sprite.svg#icon-repeat" />
                   </S.PlayerBtnRepeatSvg>
                 </S.PlayerBtnRepeatDiv>
 
                 <S.PlayerBtnShuffleDiv onClick={handleShuffleTrack}>
                   <S.PlayerBtnShuffleSvg alt="shuffle" $stroke={isShuffle}>
-                    <use xlinkHref="img/icon/sprite.svg#icon-shuffle" />
+                    <use xlinkHref="/img/icon/sprite.svg#icon-shuffle" />
                   </S.PlayerBtnShuffleSvg>
                 </S.PlayerBtnShuffleDiv>
               </S.PlayerControlsDiv>
@@ -185,7 +200,7 @@ const AudioPlayer = () => {
                 <S.TrackPlayContainDiv>
                   <S.TrackPlayImageDiv>
                     <S.TrackPlaySvg alt="music">
-                      <use xlinkHref="img/icon/sprite.svg#icon-note" />
+                      <use xlinkHref="/img/icon/sprite.svg#icon-note" />
                     </S.TrackPlaySvg>
                   </S.TrackPlayImageDiv>
                   <S.TrackPlayAuthorDiv>
@@ -201,16 +216,31 @@ const AudioPlayer = () => {
                 </S.TrackPlayContainDiv>
 
                 <S.TrackPlayLikeDisDiv>
-                  <S.TrackPlayLikeDiv onClick={awaitImplementation}>
+                  <S.TrackPlayLikeDiv
+                    onClick={(e) =>
+                      handleToggleLike(e, currentTrack.id, currentTrack.isLiked)
+                    }
+                  >
+                    <S.TrackPlayLikeSvg alt="like">
+                      <use
+                        xlinkHref={`/img/icon/sprite.svg#icon-${
+                          currentTrack.isLiked ? '' : 'dis'
+                        }likeMy`}
+                      />
+                    </S.TrackPlayLikeSvg>
+                  </S.TrackPlayLikeDiv>
+
+                  {/* <S.TrackPlayLikeDiv onClick={awaitImplementation}>
                     <S.TrackPlayLikeSvg alt="like">
                       <use xlinkHref="img/icon/sprite.svg#icon-like" />
                     </S.TrackPlayLikeSvg>
                   </S.TrackPlayLikeDiv>
+                  
                   <S.TrackPlayDislikeDiv onClick={awaitImplementation}>
                     <S.TrackPlayDislikeSvg alt="dislike">
                       <use xlinkHref="img/icon/sprite.svg#icon-dislike" />
                     </S.TrackPlayDislikeSvg>
-                  </S.TrackPlayDislikeDiv>
+                  </S.TrackPlayDislikeDiv> */}
                 </S.TrackPlayLikeDisDiv>
               </S.PlayerTrackPlayDiv>
             </S.BarPlayerDiv>
@@ -219,7 +249,7 @@ const AudioPlayer = () => {
               <S.VolumeContentDiv>
                 <S.VolumeImageDiv>
                   <S.VolumeSvg alt="volume">
-                    <use xlinkHref="img/icon/sprite.svg#icon-volume" />
+                    <use xlinkHref="/img/icon/sprite.svg#icon-volume" />
                   </S.VolumeSvg>
                 </S.VolumeImageDiv>
                 <S.VolumeProgressDiv className="_btn">

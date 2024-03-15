@@ -1,4 +1,5 @@
 import { createSlice, current } from '@reduxjs/toolkit'
+import { tracksApi } from './api/tracksApi'
 
 const playerSlice = createSlice({
   name: 'player',
@@ -16,7 +17,6 @@ const playerSlice = createSlice({
       dateOrder: 'По умолчанию',
       genre: [],
     },
-
   },
   reducers: {
     setCurrentTrack(state, action) {
@@ -81,15 +81,34 @@ const playerSlice = createSlice({
       }
     },
 
+    changeTrackLike(state, action) {
+      const { isLiked } = action.payload
+      state.currentTrack.isLiked = isLiked
+    },
+
     setFilters(state, action) {
-      const { filterName, filterValue} = action.payload
+      const { filterName, filterValue } = action.payload
+      console.log(filterName, filterValue)
       if (state.filters[filterName].includes(filterValue)) {
-        state.filters[filterName] = state.filters[filterName].filter((el)=> el.toLowerCase() !== filterValue.toLowerCase())
+        state.filters[filterName] = state.filters[filterName].filter(
+          (el) => el.toLowerCase() !== filterValue.toLowerCase(),
+        )
+        console.log(Object.values(state.filters[filterName]))
       } else {
         state.filters[filterName].push(filterValue)
+        console.log(Object.values(state.filters[filterName]))
       }
-    }
+    },
   },
+
+  // extraReducers: (builder) => {
+  //   builder.addMatcher(
+  //     tracksApi.endpoints.setLike.matchFulfilled,
+  //     (state, { payload }) => {
+  //       console.log(payload)
+  //     },
+  //   )
+  // },
 })
 
 export const {
@@ -101,7 +120,8 @@ export const {
   nextTrack,
   prevTrack,
   shuffleTrack,
-  setFilters
+  setFilters,
+  changeTrackLike,
 } = playerSlice.actions
 
 export default playerSlice.reducer

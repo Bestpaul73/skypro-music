@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
 import { deleteUser, setAuth } from '../userSlice'
+import { useParams } from 'react-router-dom'
 
 // const HOST = 'https://skypro-music-api.skyeng.tech/'
 
@@ -30,7 +31,7 @@ const baseQueryWithReauth = async (args, api, extraOptions) => {
       return headers
     },
   })
-console.log(args);
+  console.log(args)
   // Делаем запрос
   const result = await baseQuery(args, api, extraOptions)
   console.debug('Результат первого запроса', { result })
@@ -82,7 +83,12 @@ console.log(args);
   }
 
   // Мы наконец получили новый access токен, сохраняем его в стор, чтобы последующие запросы могли его использовать внутри prepareHeaders
-  api.dispatch(setAuth({ accessToken: refreshResult.data.access, refreshToken: auth.refreshToken }))
+  api.dispatch(
+    setAuth({
+      accessToken: refreshResult.data.access,
+      refreshToken: auth.refreshToken,
+    }),
+  )
 
   // Делаем повторный запрос с теми же параметрами что и исходный,
   // но помним, что повторный запрос произойдет уже с новым токеном,
@@ -109,14 +115,15 @@ export const tracksApi = createApi({
     getAllTracks: build.query({
       query: () => `catalog/track/all/`,
       transformResponse: (response) => {
+        console.log(response)
         let userId = localStorage.getItem('user')
         if (userId) {
           userId = JSON.parse(userId).id
         }
+        console.log(userId, 'All')
 
         const tracks = response.map((track) => {
           const user = track.stared_user.find((el) => el.id === userId)
-          console.log(user);
           return {
             ...track,
             isLiked: !!user,
@@ -164,6 +171,44 @@ export const tracksApi = createApi({
           : [{ type: 'Likes', id: 'LIST' }],
     }),
 
+    getCategoryTracks: build.query({
+      query: (id) => {
+        const accessToken = localStorage.getItem('accessToken')
+        return {
+          url: `catalog/selection/${id}`,
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      },
+      transformResponse: (response) => {
+        console.log(response)
+        let userId = localStorage.getItem('user')
+        if (userId) {
+          userId = JSON.parse(userId).id
+        }
+        console.log(userId, 'Category')
+
+        const tracks = response.items.map((track) => {
+          const user = track.stared_user.find((el) => el.id === userId)
+          return {
+            ...track,
+            isLiked: !!user,
+          }
+        })
+
+        return { name: response.name, tracks: tracks }
+      },
+      providesTags: (result) =>
+        result.tracks
+          ? [
+              ...result.tracks.map(({ id }) => ({ type: 'Likes', id })),
+              { type: 'Likes', id: 'LIST' },
+            ]
+          : [{ type: 'Likes', id: 'LIST' }],
+    }),
+
     setLike: build.mutation({
       query: ({ id }) => {
         const accessToken = localStorage.getItem('accessToken')
@@ -197,6 +242,7 @@ export const tracksApi = createApi({
 export const {
   useGetAllTracksQuery,
   useGetFavoritesTracksQuery,
+  useGetCategoryTracksQuery,
   useSetLikeMutation,
   useSetDisLikeMutation,
 } = tracksApi

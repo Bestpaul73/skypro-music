@@ -1,5 +1,10 @@
 import styled from 'styled-components'
 
+export const CenterBlockFilterDivWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
 export const CenterBlockFilterDiv = styled.div`
   display: -webkit-box;
   display: -ms-flexbox;
@@ -80,7 +85,7 @@ export const FilterListUl = styled.ul`
   }
 `
 export const FilterItem = styled.li`
-  font-family: "StratosSkyeng", sans-serif;
+  font-family: 'StratosSkyeng', sans-serif;
   font-size: 20px;
   font-weight: 400;
   line-height: 24px;
