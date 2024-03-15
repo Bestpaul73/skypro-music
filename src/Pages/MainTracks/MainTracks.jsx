@@ -14,6 +14,9 @@ export const MainTracks = () => {
   // const { getTracksError, setGetTracksError } = useContext(loadingContext)
   // const { loading, setLoading } = useContext(loadingContext)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
+  const filters = useSelector((state) => state.playerApp.filters)
+  const searchString = useSelector((state) => state.playerApp.searchString)
+  console.log(searchString)
 
   // const handleGetAllTracks = () => {
   //   getAllTracks()
@@ -33,16 +36,59 @@ export const MainTracks = () => {
   // }
 
   const { data, isLoading, error } = useGetAllTracksQuery()
+
   useEffect(() => {
     if (data?.length) dispatch(setPlayList({ playList: data }))
   }, [data])
+
+  const filterTracks = () => {
+    if (data?.length) {
+      let filteredTracks = [...data]
+
+      if (filters.authors.length) {
+        filteredTracks = filteredTracks.filter((el) =>
+          filters.authors.includes(el.author),
+        )
+      }
+      if (filters.genre.length) {
+        filteredTracks = filteredTracks.filter((el) =>
+          filters.genre.includes(el.genre),
+        )
+      }
+
+      switch (filters.dateOrder) {
+        case 'Сначала новые':
+          filteredTracks.sort(
+            (a, b) => new Date(b.release_date) - new Date(a.release_date),
+          )
+          break
+        case 'Сначала старые':
+          filteredTracks.sort(
+            (a, b) => new Date(a.release_date) - new Date(b.release_date),
+          )
+          break
+      }
+
+      if (searchString?.length) {
+        filteredTracks = filteredTracks.filter((el) =>
+          el.name.toLowerCase().includes(searchString.toLowerCase()),
+        )
+      }
+
+      return filteredTracks
+    }
+
+    return []
+  }
+
+  const tracks = filterTracks()
 
   return (
     <>
       <CenterBlockSearch />
       <S.CenterBlockH2>Все треки</S.CenterBlockH2>
       <CenterBlockFilter />
-      <CenterBlockContent tracks={data} isLoading={isLoading} error={error} />
+      <CenterBlockContent tracks={tracks} isLoading={isLoading} error={error} />
     </>
   )
 }
