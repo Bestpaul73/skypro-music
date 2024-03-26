@@ -21,14 +21,14 @@ const MainSideBar = () => {
         <S.SideBarListDiv>
           
             <S.SideBarItemDiv>
-              <S.RouteSideBarLink to="/Category/1">
+              <S.RouteSideBarLink to="/category/1">
                 <S.SideBarImg src="/img/playlist-classic.png" alt="playlist-classic" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
           
           
             <S.SideBarItemDiv>
-              <S.RouteSideBarLink to="/Category/2">
+              <S.RouteSideBarLink to="/category/2">
                 <S.SideBarImg src="/img/playlist-electro.png" alt="playlist-electro" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>
@@ -36,7 +36,7 @@ const MainSideBar = () => {
 
         
             <S.SideBarItemDiv>
-              <S.RouteSideBarLink to="/Category/3">
+              <S.RouteSideBarLink to="/category/3">
                 <S.SideBarImg src="/img/playlist-rock.png" alt="playlist-rock" />
               </S.RouteSideBarLink>
             </S.SideBarItemDiv>

@@ -1,12 +1,9 @@
-import { useContext, useEffect, useRef, useState } from 'react'
-import { loadingContext } from '../../Context'
+import { useEffect, useRef, useState } from 'react'
 import * as S from './AudioPlayer.styles'
 import {
   ProgressInputTrack,
-  ProgressInputTrackDefault,
   ProgressInputVolume,
 } from '../ProgressBar/ProgressBar'
-import { UserContext } from '../../App'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   nextTrack,
@@ -16,6 +13,7 @@ import {
   shuffleTrack,
   clearCurrentTrack,
   changeTrackLike,
+  setPlayList,
 } from '../../store/playerSlice'
 import {
   useSetDisLikeMutation,
@@ -24,12 +22,10 @@ import {
 
 const AudioPlayer = () => {
   const dispatch = useDispatch()
-  // const { currentTrack } = useContext(UserContext)
   let { currentTrack, currentTrackId, playList } = useSelector(
     (state) => state.playerApp,
   )
 
-  // const [isPlaying, setIsPlaying] = useState(false)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
   const isShuffle = useSelector((state) => state.playerApp.isShuffle)
 
@@ -43,15 +39,6 @@ const AudioPlayer = () => {
 
   const [setDisLike] = useSetDisLikeMutation()
   const [setLike] = useSetLikeMutation()
-
-  // const handlePlay = () => {
-  //   dispatch(playTrack())
-  //   console.log('заиграли снова')
-  //   audioRef.current.play().catch((error) => {
-  //     console.log(error)
-  //     audioRef.current.pause()
-  //   })
-  // }
 
   useEffect(() => {
     if (!isPlaying) {
@@ -87,6 +74,7 @@ const AudioPlayer = () => {
 
   const handleShuffleTrack = () => {
     dispatch(shuffleTrack())
+    dispatch(setPlayList({ playList: playList }))
   }
 
   const handleEndTrack = () => {
@@ -136,8 +124,7 @@ const AudioPlayer = () => {
   const handleToggleLike = (e, id, isLiked) => {
     e.stopPropagation()
     isLiked ? setDisLike({ id }) : setLike({ id })
-    dispatch(changeTrackLike({isLiked: !isLiked}))
-    console.log(currentTrack)
+    dispatch(changeTrackLike({ isLiked: !isLiked }))
   }
 
   return (

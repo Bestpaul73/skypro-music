@@ -17,19 +17,19 @@ export const AppRoutes = () => {
 
   return (
     <Routes>
-      <Route path="/Login" element={<AuthPage isLoginMode={true} />} />
-      <Route path="/Register" element={<AuthPage isLoginMode={false} />} />
+      <Route path="/login" element={<AuthPage isLoginMode={true} />} />
+      <Route path="/register" element={<AuthPage isLoginMode={false} />} />
 
       <Route
         element={
-          <ProtectedRoute redirectPath={'/Login'} isAllowed={Boolean(user)} />
+          <ProtectedRoute redirectPath={'/login'} isAllowed={Boolean(user)} />
         }
       >
         <Route path="/" element={<MainLayout />}>
           {/* <Route index element={<CenterBlockContent />} /> */}
           <Route index element={<MainTracks />} />
-          <Route path="/Favorites" element={<Favorites />} />
-          <Route path="/Category/:id" element={<Category />} />
+          <Route path="/favorites" element={<Favorites />} />
+          <Route path="/category/:id" element={<Category />} />
         </Route>
       </Route>
 

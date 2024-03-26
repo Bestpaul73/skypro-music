@@ -184,12 +184,12 @@ export const tracksApi = createApi({
         }
       },
       transformResponse: (response) => {
-        console.log(response)
+        // console.log(response)
         let userId = localStorage.getItem('user')
         if (userId) {
           userId = JSON.parse(userId).id
         }
-        console.log(userId, 'Category')
+        // console.log(userId, 'Category')
 
         const tracks = response.items.map((track) => {
           const user = track.stared_user.find((el) => el.id === userId)

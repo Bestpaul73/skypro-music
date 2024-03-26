@@ -102,7 +102,7 @@ export default function AuthPage({ isLoginMode }) {
       .then((responseData) => {
         if (responseData.id) {
           alert(`Пользователь ${responseData.username} успешно зарегистрирован`)
-          handleLogin(responseData.username)
+          handleLogin(responseData)
           // window.location.href = '/'
           navigate('/')
           return
