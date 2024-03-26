@@ -27,7 +27,7 @@ const CenterBlockFilter = () => {
 
   //создаем массивы уникальных имен авторов и жанров
   useEffect(() => {
-    if (playList.length) {
+    if (playList?.length) {
       const authors = playList.map((el) => el.author)
       const authorSet = new Set(authors)
       setAuthorList(Array.from(authorSet))

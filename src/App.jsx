@@ -26,6 +26,8 @@ const App = () => {
     dispatch(stopTrack())
     dispatch(clearCurrentTrack())
     localStorage.removeItem('user')
+    localStorage.removeItem('accessToken')
+    localStorage.removeItem('refreshToken')
   }
 
   useEffect(() => {

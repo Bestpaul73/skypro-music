@@ -1,31 +1,33 @@
-import { useContext, useEffect, useState } from 'react'
-import { loadingContext } from '../../Context'
+import { useEffect } from 'react'
 import PlayListItemSkeleton from './PlayListItemSkeleton'
 import * as S from './CenterBlockContent.styles.js'
 import { useDispatch, useSelector } from 'react-redux'
-import { changeTrackLike, setCurrentTrack } from '../../store/playerSlice.js'
+import {
+  changeTrackLike,
+  clearSearchString,
+  setCurrentTrack,
+  setOrdinalPlayList,
+  setPlayList,
+} from '../../store/playerSlice.js'
 import {
   useSetDisLikeMutation,
   useSetLikeMutation,
 } from '../../store/api/tracksApi.js'
-// import { handleToggleLike } from '../toggleLike/toggleLike.js'
 
 const CenterBlockContent = ({ tracks, isLoading, error }) => {
-  // const { loading, setLoading } = useContext(loadingContext)
-  // const { getTracksError, setGetTracksError } = useContext(loadingContext)
-  // const {  setCurrentTrack } = useContext(UserContext)
   const [setDisLike] = useSetDisLikeMutation()
   const [setLike] = useSetLikeMutation()
   const dispatch = useDispatch()
   const currentTrack = useSelector((state) => state.playerApp.currentTrack)
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
-  // const [allTracks, setAllTracks] = useState([])
 
-  // const allTracks = useSelector((state) => state.playerApp.ordinalPlayList)
+  useEffect(() => {
+    dispatch(setOrdinalPlayList({ playList: tracks })) //один раз записываем плейлист "по порядку", чтобы было куда откатываться от шафла.
+  }, [tracks])
 
-  // useEffect(() => {
-  //   props.getAnyTracks()
-  // }, [])
+  useEffect(() => {
+    dispatch(clearSearchString())
+  }, [])
 
   const durationToString = (duration) => {
     let minutes = String(Math.trunc(duration / 60))
@@ -39,7 +41,6 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
     if (id === currentTrack?.id)
       dispatch(changeTrackLike({ isLiked: !currentTrack.isLiked }))
   }
-  // console.log(tracks);
 
   return (
     <S.CenterBlockContentDiv>
@@ -76,6 +77,7 @@ const CenterBlockContent = ({ tracks, isLoading, error }) => {
               <S.PlaylistItemDiv
                 key={track.id}
                 onClick={() => {
+                  dispatch(setPlayList({ playList: tracks }))
                   dispatch(setCurrentTrack({ track }))
                 }}
               >

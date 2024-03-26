@@ -3,7 +3,7 @@ import CenterBlockContent from '../../components/CenterBlockContent/CenterBlockC
 import CenterBlockFilter from '../../components/CenterBlockFilter/CenterBlockFilter'
 import CenterBlockSearch from '../../components/CenterBlockSearch/CenterBlockSearch'
 import * as S from './Favorites.styles'
-import { useContext } from 'react'
+import { useContext, useEffect } from 'react'
 import { loadingContext } from '../../Context'
 import { getAllTracks } from '../../api'
 import { setPlayList } from '../../store/playerSlice'
