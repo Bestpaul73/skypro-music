@@ -49,7 +49,7 @@ const playerSlice = createSlice({
 
     setOrdinalPlayList(state, action) {
       state.ordinalPlayList = action.payload.playList
-      console.log(state.ordinalPlayList)
+      // console.log(state.ordinalPlayList)
     },
 
     setPlayList(state) {

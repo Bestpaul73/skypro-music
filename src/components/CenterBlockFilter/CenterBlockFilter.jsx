@@ -10,7 +10,7 @@ const CenterBlockFilter = () => {
   const [visibleFilter, setVisibleFilter] = useState(null)
   const [authorList, setAuthorList] = useState([])
   const [genreList, setGenreList] = useState([])
-  const { playList } = useSelector((state) => state.playerApp)
+  const { ordinalPlayList } = useSelector((state) => state.playerApp)
   const dispatch = useDispatch()
   // const filterConditionAuthorArr = useSelector(
   //   (state) => state.playerApp.filters['authors'],
@@ -27,16 +27,16 @@ const CenterBlockFilter = () => {
 
   //создаем массивы уникальных имен авторов и жанров
   useEffect(() => {
-    if (playList?.length) {
-      const authors = playList.map((el) => el.author)
+    if (ordinalPlayList?.length) {
+      const authors = ordinalPlayList.map((el) => el.author)
       const authorSet = new Set(authors)
       setAuthorList(Array.from(authorSet))
 
-      const genre = playList.map((el) => el.genre)
+      const genre = ordinalPlayList.map((el) => el.genre)
       const genreSet = new Set(genre)
       setGenreList(Array.from(genreSet))
     }
-  }, [playList])
+  }, [])
 
   return (
     <S.CenterBlockFilterDivWrapper>
