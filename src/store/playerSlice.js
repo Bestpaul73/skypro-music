@@ -1,6 +1,17 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 import { tracksApi } from './api/tracksApi'
 
+const shuffle = (array) => {
+  if (array?.length > 0) {
+    const newArray = [...array]
+    for (let i = newArray.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1))
+      ;[newArray[i], newArray[j]] = [newArray[j], newArray[i]]
+    }
+    return newArray
+  }
+}
+
 const playerSlice = createSlice({
   name: 'player',
   initialState: {
@@ -26,7 +37,7 @@ const playerSlice = createSlice({
       state.currentTrackId = state.playList.findIndex(
         (el) => el.id === state.currentTrack.id,
       )
-      console.log(state.currentTrackId)
+      // console.log(state.currentTrackId)
     },
 
     clearCurrentTrack(state) {
@@ -36,10 +47,18 @@ const playerSlice = createSlice({
       state.currentTrackId = null
     },
 
-    setPlayList(state, action) {
-      state.playList = action.payload.playList
-      state.shuffledPlayList = action.payload.playList
+    setOrdinalPlayList(state, action) {
       state.ordinalPlayList = action.payload.playList
+      // console.log(state.ordinalPlayList)
+    },
+
+    setPlayList(state) {
+      state.playList = state.isShuffle
+        ? shuffle(state.ordinalPlayList)
+        : state.ordinalPlayList
+      // state.shuffledPlayList = action.payload.playList
+      // state.ordinalPlayList = action.payload.playList
+      // console.log(state.isShuffle, state.playList)
     },
 
     playTrack(state) {
@@ -65,21 +84,7 @@ const playerSlice = createSlice({
     },
 
     shuffleTrack(state) {
-      const shuffle = (array) => {
-        for (let i = array.length - 1; i > 0; i--) {
-          let j = Math.floor(Math.random() * (i + 1))
-          ;[array[i], array[j]] = [array[j], array[i]]
-        }
-      }
-
       state.isShuffle = !state.isShuffle
-
-      if (state.isShuffle) {
-        shuffle(state.shuffledPlayList)
-        state.playList = state.shuffledPlayList
-      } else {
-        state.playList = state.ordinalPlayList
-      }
     },
 
     changeTrackLike(state, action) {
@@ -109,6 +114,10 @@ const playerSlice = createSlice({
     searchTracks(state, action) {
       state.searchString = action.payload.value
     },
+
+    clearSearchString(state) {
+      state.searchString = []
+    },
   },
 
   // extraReducers: (builder) => {
@@ -124,6 +133,7 @@ const playerSlice = createSlice({
 export const {
   setCurrentTrack,
   clearCurrentTrack,
+  setOrdinalPlayList,
   setPlayList,
   playTrack,
   stopTrack,
@@ -133,6 +143,7 @@ export const {
   setFilters,
   changeTrackLike,
   searchTracks,
+  clearSearchString,
 } = playerSlice.actions
 
 export default playerSlice.reducer

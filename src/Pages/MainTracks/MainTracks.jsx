@@ -4,9 +4,7 @@ import CenterBlockContent from '../../components/CenterBlockContent/CenterBlockC
 import CenterBlockFilter from '../../components/CenterBlockFilter/CenterBlockFilter'
 import CenterBlockSearch from '../../components/CenterBlockSearch/CenterBlockSearch'
 import * as S from './MainTracks.styles'
-import { setPlayList } from '../../store/playerSlice'
 import { useContext, useEffect } from 'react'
-import { loadingContext } from '../../Context'
 import { useGetAllTracksQuery } from '../../store/api/tracksApi'
 
 export const MainTracks = () => {
@@ -16,7 +14,6 @@ export const MainTracks = () => {
   const isPlaying = useSelector((state) => state.playerApp.isPlaying)
   const filters = useSelector((state) => state.playerApp.filters)
   const searchString = useSelector((state) => state.playerApp.searchString)
-  console.log(searchString)
 
   // const handleGetAllTracks = () => {
   //   getAllTracks()
@@ -36,10 +33,6 @@ export const MainTracks = () => {
   // }
 
   const { data, isLoading, error } = useGetAllTracksQuery()
-
-  useEffect(() => {
-    if (data?.length) dispatch(setPlayList({ playList: data }))
-  }, [data])
 
   const filterTracks = () => {
     if (data?.length) {
